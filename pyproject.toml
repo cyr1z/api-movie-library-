@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "movie_lib"
+version = "0.1.0"
+description = ""
+authors = ["cyr <cyr@zolotarev.pp.ua>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+flask-restx = "^0.4.0"
+gunicorn = "^20.1.0"
+Flask-Login = "^0.5.0"
+Flask-SQLAlchemy = "^2.5.1"
+Flask-Migrate = "^3.0.1"
+pytest = "^6.2.4"
+pylint = "^2.8.3"
+psycopg2-binary = "^2.9.1"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,55 @@
+version: "3.9"
+
+#secrets:
+#  # Secrets are single-line text files where the sole content is the secret
+#  # Paths in this example assume that secrets are kept in local folder called ".secrets"
+#  POSTGRES_PASSWORD:
+#    file: .secrets/db_root_pwd.txt
+#  POSTGRES_USER:
+#    file: .secrets/db_user.txt
+#
+
+services:
+  api:
+    env_file:
+      - .env.dev
+    container_name: ${APP_NAME}
+    hostname: ${APP_NAME}
+    build:
+      context: ../movie_lib
+    depends_on:
+      db:
+        condition: service_healthy
+
+    ports:
+      - 8081:8081
+
+    restart: always
+    volumes:
+      - ${DATA_PATH}:/data
+    links:
+      - db:pgsql-server
+
+  db:
+    image: postgres:13.3
+    restart: always
+    container_name: db-${APP_NAME}
+    hostname: db-${APP_NAME}
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+#      - ${DB_DATA_PATH}:/var/lib/postgresql/data
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - ${DB_PORT}:5432
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 15s
+      timeout: 15s
+      retries: 25
+
+volumes:
+  db-data:
