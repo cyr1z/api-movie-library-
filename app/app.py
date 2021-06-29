@@ -1,6 +1,9 @@
+""" Top level module """
+
 from flask import Flask
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
+from flask_restx import Resource, Api
 from app.config import Config
 
 app = Flask(__name__)
@@ -13,6 +16,9 @@ app.config.update(
 # initialize the database connection
 db = SQLAlchemy(app)
 
+# API initialize
+api = Api(app)
+
 # initialize database migration management
 migrate = Migrate(app, db)
 
@@ -20,6 +26,12 @@ migrate = Migrate(app, db)
 @app.route('/')
 def hello_world():
     return 'Hello World!'
+
+#
+# @api.route('/hello')
+# class HelloWorld(Resource):
+#     def get(self):
+#         return {'hello': 'world'}
 
 
 if __name__ == '__main__':
