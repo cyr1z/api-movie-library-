@@ -36,4 +36,5 @@ class User(UserMixin, db.Model):
         return f"<User {self.username}>"
 
     def __str__(self):
-        return f"{self.email}, {self.username} {self.first_name} {self.last_name}"
+        return f"{self.email}, {self.username} " \
+               f"{self.first_name} {self.last_name}"
