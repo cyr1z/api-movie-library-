@@ -50,7 +50,6 @@ class Country(db.Model):
 class Movie(db.Model):
     """ Movie model """
 
-
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64), unique=True, index=True)
     rate = db.Column(db.Integer)
@@ -78,4 +77,4 @@ class Movie(db.Model):
         return f"<Movie {self.id} {self.name}>"
 
     def __str__(self):
-        return f"<Movie {self.id} {self.name}>"
+        return f"{self.name} {self.year}>"
