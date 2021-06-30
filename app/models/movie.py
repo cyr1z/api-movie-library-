@@ -3,7 +3,7 @@ Movie, Genre and Director model classes
 
 """
 
-from sqlalchemy import Table, ForeignKey, Integer, Date, Column, String, Text, \
+from sqlalchemy import Table, ForeignKey, Integer, Column, String, Text, \
     DateTime
 from sqlalchemy.orm import relationship
 
