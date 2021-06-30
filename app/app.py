@@ -27,12 +27,15 @@ migrate = Migrate(app, db)
 def hello_world():
     return 'Hello World!'
 
+
 #
 # @api.route('/hello')
 # class HelloWorld(Resource):
 #     def get(self):
 #         return {'hello': 'world'}
 
+
+# from app import routes, models
 
 if __name__ == '__main__':
     app.run()

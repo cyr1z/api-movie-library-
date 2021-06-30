@@ -17,6 +17,7 @@ services:
     hostname: ${APP_NAME}
     build:
       context: ../movie_lib
+      dockerfile: Dockerfile.dev
     depends_on:
       db:
         condition: service_healthy
@@ -27,6 +28,9 @@ services:
     restart: always
     volumes:
       - ${DATA_PATH}:/data
+      - ./tests:/tests
+      - ./migrations:/migrations
+      - ./app:/app
     links:
       - db:pgsql-server
 

@@ -28,10 +28,8 @@ build-nc: ## Build the container without caching
 up: ## Up container from registry image
 	docker-compose -f docker-compose.yml up -d
 
-dev-up: build-nc ## Run container on port configured in `.env.dev`
+dev-up: ## Run container on port configured in `.env.dev`
 	docker-compose -f docker-compose.dev.yml  up
-
-#--force-recreate --build
 
 run: ##  Run container on port configured in `.env` with -d (background mode)
 	docker run -d -t --rm  --env-file=.env  --name="$(APP_NAME)" $(APP_NAME)
