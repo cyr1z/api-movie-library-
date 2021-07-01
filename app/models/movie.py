@@ -57,7 +57,6 @@ class Movie(db.Model):
     name = db.Column(db.String(64))
     poster_link = db.Column(db.String(128))
     released = db.Column(db.DateTime)
-    year = db.Column(db.Integer)
     production = db.Column(db.String(250))
     genres = db.relationship(
         'Genre',

@@ -37,5 +37,6 @@ def hello_world():
 
 # from app import routes, models
 
+from app.models import user, movie
 if __name__ == '__main__':
     app.run()
