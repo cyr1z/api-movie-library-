@@ -2,9 +2,10 @@
 
 from flask import Flask
 from flask_migrate import Migrate
+from flask_restx import Api
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
-from flask_restx import Resource, Api
+
 from app.config import Config
 
 app = Flask(__name__)
@@ -24,10 +25,9 @@ api = Api(app)
 # initialize database migration management
 migrate = Migrate(app, db)
 
-
-@app.route('/')
-def hello_world():
-    return 'Hello World!'
+# @app.route('/')
+# def hello_world():
+#     return 'Hello World!'
 
 
 #
@@ -37,8 +37,3 @@ def hello_world():
 #         return {'hello': 'world'}
 
 
-# from app import routes, models
-
-
-if __name__ == '__main__':
-    app.run()

@@ -15,4 +15,4 @@ class Config:
     DB_PORT = getenv('DB_PORT')
     SQLALCHEMY_TRACK_MODIFICATIONS = getenv('SQLALCHEMY_TRACK_MODIFICATIONS')
     DATABASE_URI = f'postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}' \
-                   f'@db-{APP_NAME}:{DB_PORT}/{POSTGRES_DB}'
+                   f'@localhost:{DB_PORT}/{POSTGRES_DB}'
