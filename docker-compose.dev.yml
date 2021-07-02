@@ -12,7 +12,7 @@ version: "3.9"
 services:
   api:
     env_file:
-      - .env.dev
+      - .env
     container_name: ${APP_NAME}
     hostname: ${APP_NAME}
     build:
@@ -27,7 +27,7 @@ services:
 
     restart: always
     volumes:
-      - ${DATA_PATH}:/data
+      - ./data:/data
       - ./tests:/tests
       - ./migrations:/migrations
       - ./app:/app
@@ -35,18 +35,20 @@ services:
       - db:pgsql-server
 
   db:
-    image: postgres:13.3
+    image: postgres:13.2
     restart: always
     container_name: db-${APP_NAME}
     hostname: db-${APP_NAME}
+    env_file:
+      - .env
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
       PGDATA: /var/lib/postgresql/data
+      POSTGRES_DB: ${POSTGRES_DB}
     volumes:
-#      - ${DB_DATA_PATH}:/var/lib/postgresql/data
       - db-data:/var/lib/postgresql/data
+      - ./db_import:/docker-entrypoint-initdb.d
     ports:
       - ${DB_PORT}:5432
     healthcheck:

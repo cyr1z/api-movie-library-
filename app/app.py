@@ -3,6 +3,7 @@
 from flask import Flask
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import create_engine
 from flask_restx import Resource, Api
 from app.config import Config
 
@@ -13,6 +14,7 @@ app.config.update(
     SQLALCHEMY_TRACK_MODIFICATIONS=Config.SQLALCHEMY_TRACK_MODIFICATIONS,
 )
 
+engine = create_engine(Config.DATABASE_URI, echo=True)
 # initialize the database connection
 db = SQLAlchemy(app)
 
@@ -37,6 +39,6 @@ def hello_world():
 
 # from app import routes, models
 
-from app.models import user, movie
+
 if __name__ == '__main__':
     app.run()

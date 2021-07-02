@@ -28,7 +28,7 @@ build-nc: ## Build the container without caching
 up: ## Up container from registry image
 	docker-compose -f docker-compose.yml up -d
 
-dev-up: ## Run container on port configured in `.env.dev`
+dev-up: ## Run container on port configured in `.env`
 	docker-compose -f docker-compose.dev.yml  up
 
 run: ##  Run container on port configured in `.env` with -d (background mode)
@@ -41,7 +41,7 @@ stop: ## Stop and remove a running container
 	docker-compose --env-file .env stop
 
 dev-stop: ## Stop and remove a running container
-	docker-compose --env-file .env.dev -f docker-compose.dev.yml stop
+	docker-compose --env-file .env -f docker-compose.dev.yml stop
 
 logs: ## view logs
 	docker logs $(APP_NAME)
@@ -50,7 +50,7 @@ clean: ## Cleaning up old container images and cache files
 	rm -rf `find . -name __pycache__`
 	rm -f `find . -type f -name '*.py[co]' `
 	docker-compose down -v
-	# docker rmi $(docker images -f "dangling=true" -q)
+	# docker rmi $(docker images -f "dangling=true"-q)
 
 flake: ## Run flake8 linters
 	flake8 -v app
@@ -130,3 +130,5 @@ create-db: ## database create
 psql: ## database create
 	docker exec -it db-$(APP_NAME) psql --username=${POSTGRES_USER} --dbname=${POSTGRES_DB}
 
+db-bash: ## database create
+	docker exec -it db-$(APP_NAME)  bash
