@@ -1,3 +1,7 @@
+"""
+Movie api app models
+
+"""
 from datetime import datetime
 
 from flask_login import UserMixin
@@ -8,6 +12,7 @@ from app.app import db
 
 class User(UserMixin, db.Model):
     """ User model for storing user related data """
+    __tablename__ = "User"
 
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64), unique=True, index=True)
@@ -23,6 +28,7 @@ class User(UserMixin, db.Model):
 
     @property
     def password(self):
+        """"""
         raise AttributeError("Password is not a readable attribute")
 
     @password.setter
@@ -38,6 +44,7 @@ class User(UserMixin, db.Model):
     def __str__(self):
         return f"{self.email}, {self.username} " \
                f"{self.first_name} {self.last_name}"
+
 
 MovieGenre = db.Table(
     'MovieGenre',
@@ -56,6 +63,8 @@ MovieDirector = db.Table(
 
 class Genre(db.Model):
     """ Genre model """
+    __tablename__ = "Genre"
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(15), unique=True, index=True)
     movies = db.relationship(
@@ -66,6 +75,8 @@ class Genre(db.Model):
 
 class Director(db.Model):
     """ Director model """
+    __tablename__ = "Director"
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(15), unique=True, index=True)
     movies = db.relationship(
@@ -77,12 +88,15 @@ class Director(db.Model):
 
 class Country(db.Model):
     """ Country model """
+    __tablename__ = "Country"
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(15), unique=True, index=True)
 
 
 class Movie(db.Model):
     """ Movie model """
+    __tablename__ = "Movie"
 
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64), unique=True, index=True)
@@ -101,9 +115,9 @@ class Movie(db.Model):
         'Director',
         secondary=MovieDirector,
         backref='Movie')
-    country_id = db.Column(db.Integer, db.ForeignKey('country.id'))
+    country_id = db.Column(db.Integer, db.ForeignKey('Country.id'))
     country = db.relationship("Country", backref="movies")
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('User.id'))
     user = db.relationship("User", backref="movies")
 
     def __repr__(self):
