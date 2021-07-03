@@ -132,3 +132,4 @@ psql: ## database create
 
 db-bash: ## database create
 	docker exec -it db-$(APP_NAME)  bash
+

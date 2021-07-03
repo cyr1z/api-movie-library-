@@ -17,5 +17,4 @@ migrate = Migrate(app, db)
 api = Api(app)
 
 
-from . import models
-# , routes
+from . import models, routes
