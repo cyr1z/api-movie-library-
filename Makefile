@@ -28,8 +28,8 @@ build-nc: ## Build the container without caching
 up: ## Up container from registry image
 	docker-compose -f docker-compose.yml up -d
 
-dev-up: build-nc ## Run container on port configured in `.env.dev`
-	docker-compose -f docker-compose.dev.yml  up --force-recreate --build
+dev-up: ## Run container on port configured in `.env`
+	docker-compose -f docker-compose.dev.yml  up --build
 
 run: ##  Run container on port configured in `.env` with -d (background mode)
 	docker run -d -t --rm  --env-file=.env  --name="$(APP_NAME)" $(APP_NAME)
@@ -41,7 +41,7 @@ stop: ## Stop and remove a running container
 	docker-compose --env-file .env stop
 
 dev-stop: ## Stop and remove a running container
-	docker-compose --env-file .env.dev -f docker-compose.dev.yml stop
+	docker-compose --env-file .env -f docker-compose.dev.yml stop
 
 logs: ## view logs
 	docker logs $(APP_NAME)
@@ -50,7 +50,7 @@ clean: ## Cleaning up old container images and cache files
 	rm -rf `find . -name __pycache__`
 	rm -f `find . -type f -name '*.py[co]' `
 	docker-compose down -v
-	# docker rmi $(docker images -f "dangling=true" -q)
+	# docker rmi $(docker images -f "dangling=true"-q)
 
 flake: ## Run flake8 linters
 	flake8 -v app
@@ -98,7 +98,7 @@ tag-version: ## Generate container `latest` tag
 	docker tag $(APP_NAME) $(DOCKER_REPO):$(VERSION)
 
 shell: ## run bash in container
-	docker exec -i -t $(APP_NAME) sh
+	docker exec -i -t $(APP_NAME) bash
 
 sh: ## run sh in container
 	docker exec -i -t $(APP_NAME) sh
@@ -130,3 +130,5 @@ create-db: ## database create
 psql: ## database create
 	docker exec -it db-$(APP_NAME) psql --username=${POSTGRES_USER} --dbname=${POSTGRES_DB}
 
+db-bash: ## database create
+	docker exec -it db-$(APP_NAME)  bash
