@@ -1,3 +1,7 @@
+"""
+Country List Api
+
+"""
 from flask import request
 from flask_restx import Resource
 from marshmallow import ValidationError
@@ -8,6 +12,7 @@ from app.schemas.countries import CountrySchema
 
 
 class CountryListApi(Resource):
+    """Country List Api"""
     country_schema = CountrySchema()
 
     def get(self, uuid=None):

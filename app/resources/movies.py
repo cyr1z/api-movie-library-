@@ -10,6 +10,8 @@ from app.schemas.movies import MovieSchema
 
 
 class MovieListApi(Resource):
+    """ Movie List Api """
+
     movie_schema = MovieSchema()
 
     def get(self, uuid=None):
