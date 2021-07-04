@@ -1,7 +1,10 @@
 """
-Movie api app models
+User model for storing user related data
+And
+Movie, Director, Country, Genre models
 
 """
+
 from datetime import datetime
 
 from flask_login import UserMixin
@@ -11,7 +14,8 @@ from app.app import db
 
 
 class User(UserMixin, db.Model):
-    """ User model for storing user related data """
+    """User model for storing user related data"""
+
     __tablename__ = "User"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -42,52 +46,47 @@ class User(UserMixin, db.Model):
         return f"<User {self.username}>"
 
     def __str__(self):
-        return f"{self.email}, {self.username} " \
-               f"{self.first_name} {self.last_name}"
+        return f"{self.email}, {self.username} {self.first_name} {self.last_name}"
 
 
 MovieGenre = db.Table(
-    'MovieGenre',
-    db.Column('id', db.Integer, primary_key=True),
-    db.Column('movie_id', db.Integer, db.ForeignKey('Movie.id')),
-    db.Column('genre_id', db.Integer, db.ForeignKey('Genre.id'))
+    "MovieGenre",
+    db.Column("id", db.Integer, primary_key=True),
+    db.Column("movie_id", db.Integer, db.ForeignKey("Movie.id")),
+    db.Column("genre_id", db.Integer, db.ForeignKey("Genre.id")),
 )
 
 MovieDirector = db.Table(
-    'MovieDirector',
-    db.Column('id', db.Integer, primary_key=True),
-    db.Column('movie_id', db.Integer, db.ForeignKey('Movie.id')),
-    db.Column('director_id', db.Integer, db.ForeignKey('Director.id'))
+    "MovieDirector",
+    db.Column("id", db.Integer, primary_key=True),
+    db.Column("movie_id", db.Integer, db.ForeignKey("Movie.id")),
+    db.Column("director_id", db.Integer, db.ForeignKey("Director.id")),
 )
 
 
 class Genre(db.Model):
-    """ Genre model """
+    """Genre model"""
+
     __tablename__ = "Genre"
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(15), unique=True, index=True)
-    movies = db.relationship(
-        'Movie',
-        secondary=MovieGenre,
-        backref='Genre')
+    movies = db.relationship("Movie", secondary=MovieGenre, backref="Genre")
 
 
 class Director(db.Model):
-    """ Director model """
+    """Director model"""
+
     __tablename__ = "Director"
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(15), unique=True, index=True)
-    movies = db.relationship(
-        'Movie',
-        secondary=MovieDirector,
-        backref='Director'
-    )
+    movies = db.relationship("Movie", secondary=MovieDirector, backref="Director")
 
 
 class Country(db.Model):
-    """ Country model """
+    """Country model"""
+
     __tablename__ = "Country"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -95,7 +94,8 @@ class Country(db.Model):
 
 
 class Movie(db.Model):
-    """ Movie model """
+    """Movie model"""
+
     __tablename__ = "Movie"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -106,18 +106,11 @@ class Movie(db.Model):
     poster_link = db.Column(db.String(128))
     released = db.Column(db.DateTime)
     production = db.Column(db.String(250))
-    genres = db.relationship(
-        'Genre',
-        secondary=MovieGenre,
-        backref='Movie'
-    )
-    directors = db.relationship(
-        'Director',
-        secondary=MovieDirector,
-        backref='Movie')
-    country_id = db.Column(db.Integer, db.ForeignKey('Country.id'))
+    genres = db.relationship("Genre", secondary=MovieGenre, backref="Movie")
+    directors = db.relationship("Director", secondary=MovieDirector, backref="Movie")
+    country_id = db.Column(db.Integer, db.ForeignKey("Country.id"))
     country = db.relationship("Country", backref="movies")
-    user_id = db.Column(db.Integer, db.ForeignKey('User.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey("User.id"))
     user = db.relationship("User", backref="movies")
 
     def __repr__(self):

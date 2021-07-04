@@ -16,6 +16,7 @@ pylint = "^2.8.3"
 psycopg2-binary = "^2.9.1"
 marshmallow = "^3.12.1"
 marshmallow-sqlalchemy = "^0.26.1"
+black = "^21.6b0"
 
 [tool.poetry.dev-dependencies]
 

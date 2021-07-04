@@ -1,3 +1,7 @@
+"""
+Genre List Api
+
+"""
 from flask import request
 from flask_restx import Resource
 from marshmallow import ValidationError
@@ -8,10 +12,11 @@ from app.schemas.genres import GenreSchema
 
 
 class GenreListApi(Resource):
+    """ Genre List Api """
     genre_schema = GenreSchema()
 
     def get(self, uuid=None):
-        """ Output a list, or a single genre """
+        """Output a list, or a single genre"""
 
         if not uuid:
             genres = db.session.query(Genre).all()
@@ -19,45 +24,47 @@ class GenreListApi(Resource):
 
         genre = db.session.query(Genre).filter_by(uuid=uuid).first()
         if not genre:
-            return {'Error': 'Object was not found'}, 404
+            return {"Error": "Object was not found"}, 404
 
         return self.genre_schema.dump(genre), 200
 
     def post(self):
-        """ Adding a genre """
+        """Adding a genre"""
 
         try:
             genre = self.genre_schema.load(request.json, session=db.session)
         except ValidationError as e:
-            return {'Error': str(e)}, 400
+            return {"Error": str(e)}, 400
 
         db.session.add(genre)
         db.session.commit()
         return self.genre_schema.dump(genre), 201
 
     def put(self, uuid):
-        """ Changing a genre """
+        """Changing a genre"""
 
         genre = db.session.query(Genre).filter_by(uuid=uuid).first()
         if not genre:
-            return {'Error': 'Object was not found'}, 404
+            return {"Error": "Object was not found"}, 404
 
         try:
-            genre = self.genre_schema.load(request.json, instance=genre, session=db.session)
+            genre = self.genre_schema.load(
+                request.json, instance=genre, session=db.session
+            )
         except ValidationError as e:
-            return {'Error': str(e)}, 400
+            return {"Error": str(e)}, 400
 
         db.session.add(genre)
         db.session.commit()
         return self.genre_schema.dump(genre), 200
 
     def delete(self, uuid):
-        """ Delete a genre """
+        """Delete a genre"""
 
         genre = db.session.query(Genre).filter_by(uuid=uuid).first()
         if not genre:
-            return '', 404
+            return "", 404
 
         db.session.delete(genre)
         db.session.commit()
-        return {'Success': 'Deleted successfully'}, 200
+        return {"Success": "Deleted successfully"}, 200

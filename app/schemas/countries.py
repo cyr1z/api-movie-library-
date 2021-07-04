@@ -9,4 +9,5 @@ class CountrySchema(SQLAlchemyAutoSchema):
         model = Country
         load_instance = True
         include_fk = True
-    movies = Nested('MovieSchema', many=True, exclude=('movies',))
+
+    movies = Nested("MovieSchema", many=True, exclude=("movies",))
