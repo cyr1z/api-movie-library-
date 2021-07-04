@@ -14,6 +14,6 @@ db = SQLAlchemy(app)
 # initialize database migration management
 migrate = Migrate(app, db)
 # API initialize
-api = Api(app)
+api = Api(app, title='API for movie library')
 
 from . import models, routes
