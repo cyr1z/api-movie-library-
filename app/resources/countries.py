@@ -17,7 +17,7 @@ class CountryListApi(Resource):
             countries = db.session.query(Country).all()
             return self.country_schema.dump(countries, many=True), 200
 
-        country = db.session.query(Country).filter_by(uuid=uuid).first()
+        country = db.session.query(Country).filter_by(id=uuid).first()
         if not country:
             return {"Error": "Object was not found"}, 404
 
@@ -28,17 +28,17 @@ class CountryListApi(Resource):
 
         try:
             country = self.country_schema.load(request.json, session=db.session)
-        except ValidationError as e:
-            return {"Error": str(e)}, 400
+        except ValidationError as error:
+            return {"Error": str(error)}, 400
 
         db.session.add(country)
         db.session.commit()
         return self.country_schema.dump(country), 201
 
-    def put(self, uuid):
+    def put(self, uuid: int):
         """Changing a country"""
 
-        country = db.session.query(Country).filter_by(uuid=uuid).first()
+        country = db.session.query(Country).filter_by(id=uuid).first()
         if not country:
             return {"Error": "Object was not found"}, 404
 
@@ -46,17 +46,18 @@ class CountryListApi(Resource):
             country = self.country_schema.load(
                 request.json, instance=country, session=db.session
             )
-        except ValidationError as e:
-            return {"Error": str(e)}, 400
+        except ValidationError as error:
+            return {"Error": str(error)}, 400
 
         db.session.add(country)
         db.session.commit()
         return self.country_schema.dump(country), 200
 
-    def delete(self, uuid):
+    @staticmethod
+    def delete(uuid: int):
         """Delete a country"""
 
-        country = db.session.query(Country).filter_by(uuid=uuid).first()
+        country = db.session.query(Country).filter_by(id=uuid).first()
         if not country:
             return "", 404
 

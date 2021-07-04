@@ -13,6 +13,7 @@ from app.schemas.genres import GenreSchema
 
 class GenreListApi(Resource):
     """ Genre List Api """
+
     genre_schema = GenreSchema()
 
     def get(self, uuid=None):
@@ -22,7 +23,7 @@ class GenreListApi(Resource):
             genres = db.session.query(Genre).all()
             return self.genre_schema.dump(genres, many=True), 200
 
-        genre = db.session.query(Genre).filter_by(uuid=uuid).first()
+        genre = db.session.query(Genre).filter_by(id=uuid).first()
         if not genre:
             return {"Error": "Object was not found"}, 404
 
@@ -40,10 +41,10 @@ class GenreListApi(Resource):
         db.session.commit()
         return self.genre_schema.dump(genre), 201
 
-    def put(self, uuid):
+    def put(self, uuid: int):
         """Changing a genre"""
 
-        genre = db.session.query(Genre).filter_by(uuid=uuid).first()
+        genre = db.session.query(Genre).filter_by(id=uuid).first()
         if not genre:
             return {"Error": "Object was not found"}, 404
 
@@ -58,10 +59,11 @@ class GenreListApi(Resource):
         db.session.commit()
         return self.genre_schema.dump(genre), 200
 
-    def delete(self, uuid):
+    @staticmethod
+    def delete(uuid: int):
         """Delete a genre"""
 
-        genre = db.session.query(Genre).filter_by(uuid=uuid).first()
+        genre = db.session.query(Genre).filter_by(id=uuid).first()
         if not genre:
             return "", 404
 

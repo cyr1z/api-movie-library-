@@ -13,9 +13,7 @@ from app.schemas.directors import DirectorSchema
 
 
 class DirectorListApi(Resource):
-    """
-    Directors List Api
-    """
+    """ Directors List Api """
 
     director_schema = DirectorSchema()
 
@@ -26,7 +24,7 @@ class DirectorListApi(Resource):
             directors = db.session.query(Director).all()
             return self.director_schema.dump(directors, many=True), 200
 
-        director = db.session.query(Director).filter_by(uuid=uuid).first()
+        director = db.session.query(Director).filter_by(id=uuid).first()
         if not director:
             return {"Error": "Object was not found"}, 404
 
@@ -37,17 +35,17 @@ class DirectorListApi(Resource):
 
         try:
             director = self.director_schema.load(request.json, session=db.session)
-        except ValidationError as e:
-            return {"Error": str(e)}, 400
+        except ValidationError as error:
+            return {"Error": str(error)}, 400
 
         db.session.add(director)
         db.session.commit()
         return self.director_schema.dump(director), 201
 
-    def put(self, uuid):
+    def put(self, uuid: int):
         """Changing an director"""
 
-        director = db.session.query(Director).filter_by(uuid=uuid).first()
+        director = db.session.query(Director).filter_by(id=uuid).first()
         if not director:
             return {"Error": "Object was not found"}, 404
 
@@ -55,17 +53,18 @@ class DirectorListApi(Resource):
             director = self.director_schema.load(
                 request.json, instance=director, session=db.session
             )
-        except ValidationError as e:
-            return {"Error": str(e)}, 400
+        except ValidationError as error:
+            return {"Error": str(error)}, 400
 
         db.session.add(director)
         db.session.commit()
         return self.director_schema.dump(director), 200
 
-    def delete(self, uuid):
+    @staticmethod
+    def delete(uuid: int):
         """Deleting an director"""
 
-        director = db.session.query(Director).filter_by(uuid=uuid).first()
+        director = db.session.query(Director).filter_by(id=uuid).first()
         if not director:
             return "", 404
 

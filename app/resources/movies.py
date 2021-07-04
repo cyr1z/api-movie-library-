@@ -19,7 +19,7 @@ class MovieListApi(Resource):
             movies = db.session.query(Movie).all()
             return self.movie_schema.dump(movies, many=True), 200
 
-        movie = db.session.query(Movie).filter_by(uuid=uuid).first()
+        movie = db.session.query(Movie).filter_by(id=uuid).first()
         if not movie:
             return {"Error": "Object was not found"}, 404
 
@@ -30,17 +30,17 @@ class MovieListApi(Resource):
 
         try:
             movie = self.movie_schema.load(request.json, session=db.session)
-        except ValidationError as e:
-            return {"Error": str(e)}, 400
+        except ValidationError as error:
+            return {"Error": str(error)}, 400
 
         db.session.add(movie)
         db.session.commit()
         return self.movie_schema.dump(movie), 201
 
-    def put(self, uuid):
+    def put(self, uuid: id):
         """Changing a movie"""
 
-        movie = db.session.query(Movie).filter_by(uuid=uuid).first()
+        movie = db.session.query(Movie).filter_by(id=uuid).first()
         if not movie:
             return {"Error": "Object was not found"}, 404
 
@@ -48,17 +48,18 @@ class MovieListApi(Resource):
             movie = self.movie_schema.load(
                 request.json, instance=movie, session=db.session
             )
-        except ValidationError as e:
-            return {"Error": str(e)}, 400
+        except ValidationError as error:
+            return {"Error": str(error)}, 400
 
         db.session.add(movie)
         db.session.commit()
         return self.movie_schema.dump(movie), 200
 
-    def delete(self, uuid):
+    @staticmethod
+    def delete(uuid: int):
         """Delete a movie"""
 
-        movie = db.session.query(Movie).filter_by(uuid=uuid).first()
+        movie = db.session.query(Movie).filter_by(id=uuid).first()
         if not movie:
             return "", 404
 

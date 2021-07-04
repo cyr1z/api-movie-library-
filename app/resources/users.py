@@ -21,7 +21,7 @@ class UserListApi(Resource):
             users = db.session.query(User).all()
             return self.user_schema.dump(users, many=True), 200
 
-        user = db.session.query(User).filter_by(uuid=uuid).first()
+        user = db.session.query(User).filter_by(id=uuid).first()
         if not user:
             return {"Error": "Object was not found"}, 404
 
@@ -32,17 +32,17 @@ class UserListApi(Resource):
 
         try:
             user = self.user_schema.load(request.json, session=db.session)
-        except ValidationError as e:
-            return {"Error": str(e)}, 400
+        except ValidationError as error:
+            return {"Error": str(error)}, 400
 
         db.session.add(user)
         db.session.commit()
         return self.user_schema.dump(user), 201
 
-    def put(self, uuid):
+    def put(self, uuid: int):
         """Changing a user"""
 
-        user = db.session.query(User).filter_by(uuid=uuid).first()
+        user = db.session.query(User).filter_by(id=uuid).first()
         if not user:
             return {"Error": "Object was not found"}, 404
 
@@ -50,17 +50,18 @@ class UserListApi(Resource):
             user = self.user_schema.load(
                 request.json, instance=user, session=db.session
             )
-        except ValidationError as e:
-            return {"Error": str(e)}, 400
+        except ValidationError as error:
+            return {"Error": str(error)}, 400
 
         db.session.add(user)
         db.session.commit()
         return self.user_schema.dump(user), 200
 
-    def delete(self, uuid):
+    @staticmethod
+    def delete(uuid: int):
         """Delete a user"""
 
-        user = db.session.query(User).filter_by(uuid=uuid).first()
+        user = db.session.query(User).filter_by(id=uuid).first()
         if not user:
             return "", 404
 
