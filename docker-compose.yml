@@ -21,7 +21,7 @@ services:
 
     restart: always
     volumes:
-      - /opt/data/{APP_NAME}/app:/data
+      - /opt/data/${APP_NAME}/app:/data
 
   db:
     image: postgres:13.2
@@ -34,7 +34,7 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
       PGDATA: /var/lib/postgresql/data
     volumes:
-      -  /opt/data/{APP_NAME}/db:/var/lib/postgresql/data
+      -  /opt/data/${APP_NAME}/db:/var/lib/postgresql/data
     ports:
       - ${DB_PORT}:5432
     healthcheck:
