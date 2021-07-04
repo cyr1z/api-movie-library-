@@ -71,7 +71,7 @@ class Genre(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(15), unique=True, index=True)
-    movies = db.relationship("Movie", secondary=MovieGenre, backref="Genre")
+    # movies = db.relationship("Movie", secondary=MovieGenre, backref="movie_genres")
 
 
 class Director(db.Model):
@@ -81,7 +81,7 @@ class Director(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(15), unique=True, index=True)
-    movies = db.relationship("Movie", secondary=MovieDirector, backref="Director")
+    # movies = db.relationship("Movie", secondary=MovieDirector, backref="movie_directors")
 
 
 class Country(db.Model):
@@ -106,12 +106,14 @@ class Movie(db.Model):
     poster_link = db.Column(db.String(128))
     released = db.Column(db.DateTime)
     production = db.Column(db.String(250))
-    genres = db.relationship("Genre", secondary=MovieGenre, backref="Movie")
-    directors = db.relationship("Director", secondary=MovieDirector, backref="Movie")
+    genres = db.relationship("Genre", secondary=MovieGenre, backref="genre_movies")
+    directors = db.relationship(
+        "Director", secondary=MovieDirector, backref="director_movies"
+    )
     country_id = db.Column(db.Integer, db.ForeignKey("Country.id"))
-    country = db.relationship("Country", backref="movies")
+    country = db.relationship("Country", backref="country_movies")
     user_id = db.Column(db.Integer, db.ForeignKey("User.id"))
-    user = db.relationship("User", backref="movies")
+    user = db.relationship("User", backref="user_movies")
 
     def __repr__(self):
         return f"<Movie {self.id} {self.name}>"

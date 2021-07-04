@@ -124,11 +124,14 @@ version: ## Output the current version
 #	./infra/tg.sh 'https://$(DOCKER_REPO)/v2/$(APP_NAME)/manifests/$(VERSION)/'
 #	./infra/tg.sh 'docker pull $(DOCKER_REPO)'
 
-create-db: ## database create
-	docker-compose exec $(APP_NAME) python /src/manage.py create_db && docker-compose exec $(APP_NAME) python /src/manage.py seed_db
-
-psql: ## database create
+psql: ## database console
 	docker exec -it db-$(APP_NAME) psql --username=${POSTGRES_USER} --dbname=${POSTGRES_DB}
 
 db-bash: ## database create
 	docker exec -it db-$(APP_NAME)  bash
+
+migrate: ## database create
+	docker exec -i $(APP_NAME)  flask db migrate
+
+db-upgrade: ## database create
+	docker exec -i $(APP_NAME)  flask db upgrade

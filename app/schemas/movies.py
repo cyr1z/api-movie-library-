@@ -11,4 +11,4 @@ class MovieSchema(SQLAlchemyAutoSchema):
         load_instance = True
         include_fk = True
 
-    directors = Nested("DirectorSchema", many=True, exclude=("movies",))
+    # directors = Nested("DirectorSchema", many=True, exclude=("movies",))
