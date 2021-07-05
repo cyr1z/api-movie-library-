@@ -4,6 +4,8 @@ from app.resources.directors import DirectorListApi
 from app.resources.genres import GenreListApi
 from app.resources.movies import MovieListApi
 from app.resources.users import UserListApi
+from flask_login import current_user, login_user
+from app.models import User
 
 route = api.add_resource
 

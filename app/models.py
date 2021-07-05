@@ -8,9 +8,10 @@ Movie, Director, Country, Genre models
 from datetime import datetime
 
 from flask_login import UserMixin
+
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from app.app import db
+from app.app import db, login
 
 
 class User(UserMixin, db.Model):
@@ -120,3 +121,8 @@ class Movie(db.Model):
 
     def __str__(self):
         return f"{self.name} {self.year}>"
+
+
+@login.user_loader
+def load_user(uuid):
+    return User.query.get(int(uuid))

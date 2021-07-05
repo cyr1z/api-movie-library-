@@ -127,11 +127,14 @@ version: ## Output the current version
 psql: ## database console
 	docker exec -it db-$(APP_NAME) psql --username=${POSTGRES_USER} --dbname=${POSTGRES_DB}
 
-db-bash: ## database create
+db-bash: ## bash in database container
 	docker exec -it db-$(APP_NAME)  bash
 
-migrate: ## database create
+migrate: ## database migrate
 	docker exec -i $(APP_NAME)  flask db migrate
 
-db-upgrade: ## database create
+db-upgrade: ## database upgrade
 	docker exec -i $(APP_NAME)  flask db upgrade
+
+flask-shell: ## flask shell
+	docker exec -i $(APP_NAME)  flask shell
