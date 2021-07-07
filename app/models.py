@@ -21,10 +21,10 @@ class User(UserMixin, db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64), unique=True, index=True)
-    username = db.Column(db.String(15), unique=True, index=True)
+    username = db.Column(db.String(50), unique=True, index=True)
     first_name = db.Column(db.String(64))
     last_name = db.Column(db.String(64))
-    password_hash = db.Column(db.String(128))
+    password_hash = db.Column(db.String(256))
     is_admin = db.Column(db.Boolean)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
@@ -38,7 +38,7 @@ class User(UserMixin, db.Model):
 
     @password.setter
     def password(self, password):
-        self.password_hash = generate_password_hash(password).decode("utf-8")
+        self.password_hash = generate_password_hash(password)
 
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
