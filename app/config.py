@@ -6,6 +6,7 @@ POSTGRES_DB = getenv("POSTGRES_DB")
 APP_NAME = getenv("APP_NAME")
 POSTGRES_USER = getenv("POSTGRES_USER")
 POSTGRES_PASSWORD = getenv("POSTGRES_PASSWORD")
+TMDB_API_KEY = getenv("TMDB_API_KEY")
 
 
 class Config:

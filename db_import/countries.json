@@ -1,0 +1,374 @@
+{
+  "target_class": "Country",
+  "data": [
+    {
+      "short": "US",
+      "name": "United States of America"
+    },
+    {
+      "short": "GB",
+      "name": "United Kingdom"
+    },
+    {
+      "short": "KE",
+      "name": "Kenya"
+    },
+    {
+      "short": "AU",
+      "name": "Australia"
+    },
+    null,
+    {
+      "short": "CN",
+      "name": "China"
+    },
+    {
+      "short": "IT",
+      "name": "Italy"
+    },
+    {
+      "short": "JP",
+      "name": "Japan"
+    },
+    {
+      "short": "KR",
+      "name": "South Korea"
+    },
+    {
+      "short": "FR",
+      "name": "France"
+    },
+    {
+      "short": "CA",
+      "name": "Canada"
+    },
+    {
+      "short": "BE",
+      "name": "Belgium"
+    },
+    {
+      "short": "ES",
+      "name": "Spain"
+    },
+    {
+      "short": "MX",
+      "name": "Mexico"
+    },
+    {
+      "short": "DE",
+      "name": "Germany"
+    },
+    {
+      "short": "MA",
+      "name": "Morocco"
+    },
+    {
+      "short": "ZA",
+      "name": "South Africa"
+    },
+    {
+      "short": "AR",
+      "name": "Argentina"
+    },
+    {
+      "short": "CY",
+      "name": "Cyprus"
+    },
+    {
+      "short": "TH",
+      "name": "Thailand"
+    },
+    {
+      "short": "IN",
+      "name": "India"
+    },
+    {
+      "short": "SE",
+      "name": "Sweden"
+    },
+    {
+      "short": "RU",
+      "name": "Russia"
+    },
+    {
+      "short": "GE",
+      "name": "Georgia"
+    },
+    {
+      "short": "NL",
+      "name": "Netherlands"
+    },
+    {
+      "short": "BR",
+      "name": "Brazil"
+    },
+    {
+      "short": "BG",
+      "name": "Bulgaria"
+    },
+    {
+      "short": "GT",
+      "name": "Guatemala"
+    },
+    {
+      "short": "DK",
+      "name": "Denmark"
+    },
+    {
+      "short": "TW",
+      "name": "Taiwan"
+    },
+    {
+      "short": "IE",
+      "name": "Ireland"
+    },
+    {
+      "short": "LV",
+      "name": "Latvia"
+    },
+    {
+      "short": "NO",
+      "name": "Norway"
+    },
+    {
+      "short": "PL",
+      "name": "Poland"
+    },
+    {
+      "short": "NZ",
+      "name": "New Zealand"
+    },
+    {
+      "short": "CL",
+      "name": "Chile"
+    },
+    {
+      "short": "IL",
+      "name": "Israel"
+    },
+    {
+      "short": "MY",
+      "name": "Malaysia"
+    },
+    {
+      "short": "MC",
+      "name": "Monaco"
+    },
+    {
+      "short": "CO",
+      "name": "Colombia"
+    },
+    {
+      "short": "HK",
+      "name": "Hong Kong"
+    },
+    {
+      "short": "FI",
+      "name": "Finland"
+    },
+    {
+      "short": "AL",
+      "name": "Albania"
+    },
+    {
+      "short": "NG",
+      "name": "Nigeria"
+    },
+    {
+      "short": "BO",
+      "name": "Bolivia"
+    },
+    {
+      "short": "PR",
+      "name": "Puerto Rico"
+    },
+    {
+      "short": "CH",
+      "name": "Switzerland"
+    },
+    {
+      "short": "CZ",
+      "name": "Czech Republic"
+    },
+    {
+      "short": "TR",
+      "name": "Turkey"
+    },
+    {
+      "short": "ID",
+      "name": "Indonesia"
+    },
+    {
+      "short": "KH",
+      "name": "Cambodia"
+    },
+    {
+      "short": "HU",
+      "name": "Hungary"
+    },
+    {
+      "short": "AT",
+      "name": "Austria"
+    },
+    {
+      "short": "AE",
+      "name": "United Arab Emirates"
+    },
+    {
+      "short": "PE",
+      "name": "Peru"
+    },
+    {
+      "short": "PH",
+      "name": "Philippines"
+    },
+    {
+      "short": "BS",
+      "name": "Bahamas"
+    },
+    {
+      "short": "MU",
+      "name": "Mauritius"
+    },
+    {
+      "short": "IR",
+      "name": "Iran"
+    },
+    {
+      "short": "IS",
+      "name": "Iceland"
+    },
+    {
+      "short": "UA",
+      "name": "Ukraine"
+    },
+    {
+      "short": "PY",
+      "name": "Paraguay"
+    },
+    {
+      "short": "RO",
+      "name": "Romania"
+    },
+    {
+      "short": "EG",
+      "name": "Egypt"
+    },
+    {
+      "short": "GR",
+      "name": "Greece"
+    },
+    {
+      "short": "RW",
+      "name": "Rwanda"
+    },
+    {
+      "short": "BD",
+      "name": "Bangladesh"
+    },
+    {
+      "short": "RS",
+      "name": "Serbia"
+    },
+    {
+      "short": "DZ",
+      "name": "Algeria"
+    },
+    {
+      "short": "SG",
+      "name": "Singapore"
+    },
+    {
+      "short": "PT",
+      "name": "Portugal"
+    },
+    {
+      "short": "UY",
+      "name": "Uruguay"
+    },
+    {
+      "short": "DO",
+      "name": "Dominican Republic"
+    },
+    {
+      "short": "PA",
+      "name": "Panama"
+    },
+    {
+      "short": "HR",
+      "name": "Croatia"
+    },
+    {
+      "short": "MW",
+      "name": "Malawi"
+    },
+    {
+      "short": "SN",
+      "name": "Senegal"
+    },
+    {
+      "short": "SU",
+      "name": "Soviet Union"
+    },
+    {
+      "short": "EE",
+      "name": "Estonia"
+    },
+    {
+      "short": "LU",
+      "name": "Luxembourg"
+    },
+    {
+      "short": "AD",
+      "name": "Andorra"
+    },
+    {
+      "short": "XK",
+      "name": "Kosovo"
+    },
+    {
+      "short": "EC",
+      "name": "Ecuador"
+    },
+    {
+      "short": "JM",
+      "name": "Jamaica"
+    },
+    {
+      "short": "BY",
+      "name": "Belarus"
+    },
+    {
+      "short": "LB",
+      "name": "Lebanon"
+    },
+    {
+      "short": "BA",
+      "name": "Bosnia and Herzegovina"
+    },
+    {
+      "short": "VE",
+      "name": "Venezuela"
+    },
+    {
+      "short": "MN",
+      "name": "Mongolia"
+    },
+    {
+      "short": "QA",
+      "name": "Qatar"
+    },
+    {
+      "short": "AO",
+      "name": "Angola"
+    },
+    {
+      "short": "AW",
+      "name": "Aruba"
+    },
+    {
+      "short": "HN",
+      "name": "Honduras"
+    }
+  ]
+}

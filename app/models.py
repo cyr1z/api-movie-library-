@@ -91,6 +91,7 @@ class Country(db.Model):
     __tablename__ = "Country"
 
     id = db.Column(db.Integer, primary_key=True)
+    short = db.Column(db.String(4), unique=True, index=True)
     name = db.Column(db.String(15), unique=True, index=True)
 
 
@@ -100,7 +101,6 @@ class Movie(db.Model):
     __tablename__ = "Movie"
 
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(64), unique=True, index=True)
     rate = db.Column(db.Integer)
     description = db.Column(db.Text)
     name = db.Column(db.String(64))
