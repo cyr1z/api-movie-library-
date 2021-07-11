@@ -9,7 +9,7 @@ python = "^3.8"
 flask-restx = "^0.4.0"
 gunicorn = "^20.1.0"
 Flask-Login = "^0.5.0"
-Flask-SQLAlchemy = "^2.5.1"
+Flask-SQLAlchemy = "^2.4.4"
 Flask-Migrate = "^3.0.1"
 pytest = "^6.2.4"
 pylint = "^2.8.3"
@@ -19,6 +19,8 @@ marshmallow-sqlalchemy = "^0.26.1"
 black = "^21.6b0"
 Faker = "^8.9.1"
 sqlalchemy-seeder = "^0.3.0"
+Flask-DB = "^0.3.2"
+data = "^0.4"
 
 [tool.poetry.dev-dependencies]
 

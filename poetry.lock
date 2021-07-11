@@ -104,6 +104,27 @@ optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
 
 [[package]]
+name = "data"
+version = "0.4"
+description = "Work with unicode/non-unicode data from files or strings uniformly."
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+decorator = "*"
+funcsigs = "*"
+six = "*"
+
+[[package]]
+name = "decorator"
+version = "5.0.9"
+description = "Decorators for Humans"
+category = "main"
+optional = false
+python-versions = ">=3.5"
+
+[[package]]
 name = "faker"
 version = "8.9.1"
 description = "Faker is a Python package that generates fake data for you."
@@ -133,6 +154,21 @@ Werkzeug = ">=0.15,<2.0"
 dev = ["pytest", "coverage", "tox", "sphinx", "pallets-sphinx-themes", "sphinxcontrib-log-cabinet", "sphinx-issues"]
 docs = ["sphinx", "pallets-sphinx-themes", "sphinxcontrib-log-cabinet", "sphinx-issues"]
 dotenv = ["python-dotenv"]
+
+[[package]]
+name = "flask-db"
+version = "0.3.2"
+description = "A Flask CLI extension to help migrate and manage your SQL database."
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+alembic = ">=1.3"
+Flask = ">=1.0"
+Flask-SQLAlchemy = ">=2.4"
+SQLAlchemy = ">=1.2"
+SQLAlchemy-Utils = "*"
 
 [[package]]
 name = "flask-login"
@@ -190,6 +226,14 @@ python-versions = ">= 2.7, != 3.0.*, != 3.1.*, != 3.2.*, != 3.3.*"
 [package.dependencies]
 Flask = ">=0.10"
 SQLAlchemy = ">=0.8.0"
+
+[[package]]
+name = "funcsigs"
+version = "1.0.2"
+description = "Python function signatures from PEP362 for Python 2.6, 2.7 and 3.2+"
+category = "main"
+optional = false
+python-versions = "*"
 
 [[package]]
 name = "greenlet"
@@ -550,6 +594,33 @@ pyyaml = "*"
 SQLAlchemy = "*"
 
 [[package]]
+name = "sqlalchemy-utils"
+version = "0.37.8"
+description = "Various utility functions for SQLAlchemy."
+category = "main"
+optional = false
+python-versions = "~=3.4"
+
+[package.dependencies]
+six = "*"
+SQLAlchemy = ">=1.0"
+
+[package.extras]
+anyjson = ["anyjson (>=0.3.3)"]
+arrow = ["arrow (>=0.3.4)"]
+babel = ["Babel (>=1.3)"]
+color = ["colour (>=0.0.4)"]
+encrypted = ["cryptography (>=0.6)"]
+intervals = ["intervals (>=0.7.1)"]
+password = ["passlib (>=1.6,<2.0)"]
+pendulum = ["pendulum (>=2.0.5)"]
+phone = ["phonenumbers (>=5.9.2)"]
+test = ["pytest (>=2.7.1)", "Pygments (>=1.2)", "Jinja2 (>=2.3)", "docutils (>=0.10)", "flexmock (>=0.9.7)", "mock (==2.0.0)", "psycopg2 (>=2.5.1)", "psycopg2cffi (>=2.8.1)", "pg8000 (>=1.12.4)", "pytz (>=2014.2)", "python-dateutil (>=2.6)", "pymysql", "flake8 (>=2.4.0)", "isort (>=4.2.2)", "pyodbc", "backports.zoneinfo"]
+test_all = ["Babel (>=1.3)", "Jinja2 (>=2.3)", "Pygments (>=1.2)", "anyjson (>=0.3.3)", "arrow (>=0.3.4)", "colour (>=0.0.4)", "cryptography (>=0.6)", "docutils (>=0.10)", "flake8 (>=2.4.0)", "flexmock (>=0.9.7)", "furl (>=0.4.1)", "intervals (>=0.7.1)", "isort (>=4.2.2)", "mock (==2.0.0)", "passlib (>=1.6,<2.0)", "pendulum (>=2.0.5)", "pg8000 (>=1.12.4)", "phonenumbers (>=5.9.2)", "psycopg2 (>=2.5.1)", "psycopg2cffi (>=2.8.1)", "pymysql", "pyodbc", "pytest (>=2.7.1)", "python-dateutil", "python-dateutil (>=2.6)", "pytz (>=2014.2)", "backports.zoneinfo"]
+timezone = ["python-dateutil"]
+url = ["furl (>=0.4.1)"]
+
+[[package]]
 name = "text-unidecode"
 version = "1.3"
 description = "The most basic Text::Unidecode port"
@@ -588,7 +659,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "335aec44edab70e328874bcbb0b6dc622821495cfcea6d36f13f6bb9506acdb8"
+content-hash = "f50047e8f1c87bc384da0f8969d3aa3fc4ae40839b34f2d04da961bbc761ac56"
 
 [metadata.files]
 alembic = [
@@ -627,6 +698,13 @@ colorama = [
     {file = "colorama-0.4.4-py2.py3-none-any.whl", hash = "sha256:9f47eda37229f68eee03b24b9748937c7dc3868f906e8ba69fbcbdd3bc5dc3e2"},
     {file = "colorama-0.4.4.tar.gz", hash = "sha256:5941b2b48a20143d2267e95b1c2a7603ce057ee39fd88e7329b0c292aa16869b"},
 ]
+data = [
+    {file = "data-0.4.tar.gz", hash = "sha256:2726a65da1af31e2345b6bba81ae4cee87dddf17f7c62f5c63ba7327a8480667"},
+]
+decorator = [
+    {file = "decorator-5.0.9-py3-none-any.whl", hash = "sha256:6e5c199c16f7a9f0e3a61a4a54b3d27e7dad0dbdde92b944426cb20914376323"},
+    {file = "decorator-5.0.9.tar.gz", hash = "sha256:72ecfba4320a893c53f9706bebb2d55c270c1e51a28789361aa93e4a21319ed5"},
+]
 faker = [
     {file = "Faker-8.9.1-py3-none-any.whl", hash = "sha256:9d4b0f6537ad093db351f0d11cd72aef65c9e5fb0616347329919d9889c19f95"},
     {file = "Faker-8.9.1.tar.gz", hash = "sha256:156c321953ef13a59261b08f08d514e6877c477490068470d2bea38d1c8a0f98"},
@@ -634,6 +712,9 @@ faker = [
 flask = [
     {file = "Flask-1.1.4-py2.py3-none-any.whl", hash = "sha256:c34f04500f2cbbea882b1acb02002ad6fe6b7ffa64a6164577995657f50aed22"},
     {file = "Flask-1.1.4.tar.gz", hash = "sha256:0fbeb6180d383a9186d0d6ed954e0042ad9f18e0e8de088b2b419d526927d196"},
+]
+flask-db = [
+    {file = "Flask-DB-0.3.2.tar.gz", hash = "sha256:bf2c9e161fb415129c1ef251852ba26f84a7a53601ec100609d82a231e34fd12"},
 ]
 flask-login = [
     {file = "Flask-Login-0.5.0.tar.gz", hash = "sha256:6d33aef15b5bcead780acc339464aae8a6e28f13c90d8b1cf9de8b549d1c0b4b"},
@@ -650,6 +731,10 @@ flask-restx = [
 flask-sqlalchemy = [
     {file = "Flask-SQLAlchemy-2.5.1.tar.gz", hash = "sha256:2bda44b43e7cacb15d4e05ff3cc1f8bc97936cc464623424102bfc2c35e95912"},
     {file = "Flask_SQLAlchemy-2.5.1-py2.py3-none-any.whl", hash = "sha256:f12c3d4cc5cc7fdcc148b9527ea05671718c3ea45d50c7e732cceb33f574b390"},
+]
+funcsigs = [
+    {file = "funcsigs-1.0.2-py2.py3-none-any.whl", hash = "sha256:330cc27ccbf7f1e992e69fef78261dc7c6569012cf397db8d3de0234e6c937ca"},
+    {file = "funcsigs-1.0.2.tar.gz", hash = "sha256:a7bb0f2cf3a3fd1ab2732cb49eba4252c2af4240442415b4abce3b87022a8f50"},
 ]
 greenlet = [
     {file = "greenlet-1.1.0-cp27-cp27m-macosx_10_14_x86_64.whl", hash = "sha256:60848099b76467ef09b62b0f4512e7e6f0a2c977357a036de602b653667f5f4c"},
@@ -1012,6 +1097,10 @@ sqlalchemy = [
 sqlalchemy-seeder = [
     {file = "sqlalchemy-seeder-0.3.0.tar.gz", hash = "sha256:67b0d4e3d595c4edb83af6e2c77a2bdc72f2e81a0c578a94562da18134f6e9de"},
     {file = "sqlalchemy_seeder-0.3.0-py2.py3-none-any.whl", hash = "sha256:2db7ad45c742c70ad5673ef607a58586366aae4e4f3e0ba19ff9bfb1cf114ec0"},
+]
+sqlalchemy-utils = [
+    {file = "SQLAlchemy-Utils-0.37.8.tar.gz", hash = "sha256:a6aaee154f798be4e479af0ceffaa5034d35fcf6f40707c0947d21bde64e05e5"},
+    {file = "SQLAlchemy_Utils-0.37.8-py3-none-any.whl", hash = "sha256:b1bf67d904fed16b16ef1dc07f03e5e93a6b23899f920f6b41c09be45fbb85f2"},
 ]
 text-unidecode = [
     {file = "text-unidecode-1.3.tar.gz", hash = "sha256:bad6603bb14d279193107714b288be206cac565dfa49aa5b105294dd5c4aab93"},

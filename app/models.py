@@ -71,8 +71,17 @@ class Genre(db.Model):
     __tablename__ = "Genre"
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(15), unique=True, index=True)
-    # movies = db.relationship("Movie", secondary=MovieGenre, backref="movie_genres")
+    name = db.Column(db.String(50), unique=True, index=True)
+
+    @classmethod
+    def find_by_name(cls, name):
+        return Director.query.filter(Director.name == name).first()
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+        return self
 
 
 class Director(db.Model):
@@ -81,8 +90,17 @@ class Director(db.Model):
     __tablename__ = "Director"
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(15), unique=True, index=True)
-    # movies = db.relationship("Movie", secondary=MovieDirector, backref="movie_directors")
+    name = db.Column(db.String(50), unique=True, index=True)
+
+    @classmethod
+    def find_by_name(cls, name):
+        return Director.query.filter(Director.name == name).first()
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+        return self
 
 
 class Country(db.Model):
@@ -92,7 +110,17 @@ class Country(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     short = db.Column(db.String(4), unique=True, index=True)
-    name = db.Column(db.String(15), unique=True, index=True)
+    name = db.Column(db.String(50), unique=True, index=True)
+
+    @classmethod
+    def find_by_short(cls, short):
+        return Country.query.filter(Country.short == short).first()
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+        return self
 
 
 class Movie(db.Model):

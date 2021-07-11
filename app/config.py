@@ -16,6 +16,7 @@ class Config:
     SECRET_KEY = getenv("SECRET_KEY")
     TESTING = False
     CSRF_ENABLED = True
+    FLASK_DB_SEEDS_PATH = getenv("FLASK_DB_SEEDS_PATH")
     SQLALCHEMY_DATABASE_URI = (
         f"postgresql://"
         f"{POSTGRES_USER}:{POSTGRES_PASSWORD}"
