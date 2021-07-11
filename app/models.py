@@ -49,6 +49,20 @@ class User(UserMixin, db.Model):
     def __str__(self):
         return f"{self.email}, {self.username} {self.first_name} {self.last_name}"
 
+    @classmethod
+    def find_by_username(cls, username):
+        return User.query.filter(User.username == username).first()
+
+    @classmethod
+    def find_by_email(cls, email):
+        return User.query.filter(User.email == email).first()
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+        return self
+
 
 MovieGenre = db.Table(
     "MovieGenre",
