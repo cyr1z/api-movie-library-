@@ -6,8 +6,10 @@ Movie, Director, Country, Genre models
 """
 
 from datetime import datetime
+from random import random, randint
 
 from flask_login import UserMixin
+from sqlalchemy import func
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -54,6 +56,10 @@ class User(UserMixin, db.Model):
         return User.query.filter(User.username == username).first()
 
     @classmethod
+    def get_random(cls):
+        return User.query.order_by(func.random()).first()
+
+    @classmethod
     def find_by_email(cls, email):
         return User.query.filter(User.email == email).first()
 
@@ -89,7 +95,7 @@ class Genre(db.Model):
 
     @classmethod
     def find_by_name(cls, name):
-        return Director.query.filter(Director.name == name).first()
+        return Genre.query.filter(Genre.name == name).first()
 
     def save(self):
         db.session.add(self)
@@ -145,8 +151,8 @@ class Movie(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     rate = db.Column(db.Integer)
     description = db.Column(db.Text)
-    name = db.Column(db.String(64))
-    poster_link = db.Column(db.String(128))
+    name = db.Column(db.String(150))
+    poster_link = db.Column(db.String(150))
     released = db.Column(db.DateTime)
     production = db.Column(db.String(250))
     genres = db.relationship("Genre", secondary=MovieGenre, backref="genre_movies")
@@ -163,6 +169,16 @@ class Movie(db.Model):
 
     def __str__(self):
         return f"{self.name} {self.year}>"
+
+    @classmethod
+    def find_by_name(cls, name):
+        return Movie.query.filter(Movie.name == name).first()
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+        return self
 
 
 @login.user_loader
