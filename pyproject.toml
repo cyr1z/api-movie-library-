@@ -18,6 +18,7 @@ marshmallow = "^3.12.1"
 marshmallow-sqlalchemy = "^0.26.1"
 black = "^21.6b0"
 Faker = "^8.9.1"
+sqlalchemy-seeder = "^0.3.0"
 
 [tool.poetry.dev-dependencies]
 
