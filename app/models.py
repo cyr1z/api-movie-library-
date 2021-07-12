@@ -13,7 +13,7 @@ from sqlalchemy import func
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from app.app import db, login
+from app.app import db
 
 
 class User(UserMixin, db.Model):
@@ -181,6 +181,6 @@ class Movie(db.Model):
         return self
 
 
-@login.user_loader
-def load_user(uuid):
-    return User.query.get(int(uuid))
+# @login_manager.user_loader
+# def load_user(uuid):
+#     return User.query.get(int(uuid))

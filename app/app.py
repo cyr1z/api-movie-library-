@@ -24,13 +24,13 @@ api = Api(
     version='1.0'
 )
 
-login = LoginManager(app)
+# login = LoginManager(app)
 
 from .models import Country, User, Movie, Genre, Director
 from . import routes
-
-login_manager = LoginManager(app)
-login_manager.login_message_category = "info"
+#
+# login_manager = LoginManager(app)
+# login_manager.login_message_category = "info"
 
 from .models import Country, User, Movie, Genre, Director
 from . import routes
