@@ -29,12 +29,20 @@ login = LoginManager(app)
 from .models import Country, User, Movie, Genre, Director
 from . import routes
 
+login_manager = LoginManager(app)
+login_manager.login_message_category = "info"
 
-# @app.cli.command("seed")
-# @click.argument("filename")
-# def seed(filename):
-#     """ seed demo data in database """
-#     session = db.Session()
-#     seeder = ResolvingSeeder(session)
-#     new_entities = seeder.load_entities_from_json_file(filename)
-#     session.commit()
+from .models import Country, User, Movie, Genre, Director
+from . import routes
+
+
+@app.shell_context_processor
+def make_shell_context():
+    return {
+        'db': db,
+        'user': User,
+        'director': Director,
+        'genre': Genre,
+        'movie': Movie,
+        'country': Country
+    }
