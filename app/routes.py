@@ -1,5 +1,6 @@
+""" Api routes """
+
 from app.app import api
-# from app.login import login
 from app.resources.countries import CountryListApi
 from app.resources.directors import DirectorListApi
 from app.resources.genres import GenreListApi
