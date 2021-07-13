@@ -4,8 +4,8 @@ from flask import request
 from flask_restx import Resource
 from marshmallow import ValidationError
 
-from app.app import db
-from app.models import User
+
+from app.models import User, db
 from app.schemas.users import UserSchema
 
 

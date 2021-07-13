@@ -1,7 +1,9 @@
 FROM python:3.8
 COPY /app /app
+COPY /db /db
 COPY pyproject.toml .
 COPY wsgi.py .
+COPY alembic.ini .
 COPY tests /tests/
 #WORKDIR /app
 ENV PYTHONPATH=${PYTHONPATH}:${PWD}

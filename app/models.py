@@ -6,11 +6,13 @@ Movie, Director, Country, Genre models
 """
 
 from datetime import datetime
-
 from flask_login import UserMixin
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import func
+
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from app.app import db
+db = SQLAlchemy()
 
 
 class User(UserMixin, db.Model):
@@ -20,10 +22,10 @@ class User(UserMixin, db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64), unique=True, index=True)
-    username = db.Column(db.String(15), unique=True, index=True)
+    username = db.Column(db.String(50), unique=True, index=True)
     first_name = db.Column(db.String(64))
     last_name = db.Column(db.String(64))
-    password_hash = db.Column(db.String(128))
+    password_hash = db.Column(db.String(256))
     is_admin = db.Column(db.Boolean)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
@@ -37,7 +39,7 @@ class User(UserMixin, db.Model):
 
     @password.setter
     def password(self, password):
-        self.password_hash = generate_password_hash(password).decode("utf-8")
+        self.password_hash = generate_password_hash(password)
 
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
@@ -47,6 +49,24 @@ class User(UserMixin, db.Model):
 
     def __str__(self):
         return f"{self.email}, {self.username} {self.first_name} {self.last_name}"
+
+    @classmethod
+    def find_by_username(cls, username):
+        return User.query.filter(User.username == username).first()
+
+    @classmethod
+    def get_random(cls):
+        return User.query.order_by(func.random()).first()
+
+    @classmethod
+    def find_by_email(cls, email):
+        return User.query.filter(User.email == email).first()
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+        return self
 
 
 MovieGenre = db.Table(
@@ -70,8 +90,17 @@ class Genre(db.Model):
     __tablename__ = "Genre"
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(15), unique=True, index=True)
-    # movies = db.relationship("Movie", secondary=MovieGenre, backref="movie_genres")
+    name = db.Column(db.String(50), unique=True, index=True)
+
+    @classmethod
+    def find_by_name(cls, name):
+        return Genre.query.filter(Genre.name == name).first()
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+        return self
 
 
 class Director(db.Model):
@@ -80,8 +109,17 @@ class Director(db.Model):
     __tablename__ = "Director"
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(15), unique=True, index=True)
-    # movies = db.relationship("Movie", secondary=MovieDirector, backref="movie_directors")
+    name = db.Column(db.String(50), unique=True, index=True)
+
+    @classmethod
+    def find_by_name(cls, name):
+        return Director.query.filter(Director.name == name).first()
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+        return self
 
 
 class Country(db.Model):
@@ -90,7 +128,18 @@ class Country(db.Model):
     __tablename__ = "Country"
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(15), unique=True, index=True)
+    short = db.Column(db.String(4), unique=True, index=True)
+    name = db.Column(db.String(50), unique=True, index=True)
+
+    @classmethod
+    def find_by_short(cls, short):
+        return Country.query.filter(Country.short == short).first()
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+        return self
 
 
 class Movie(db.Model):
@@ -99,11 +148,10 @@ class Movie(db.Model):
     __tablename__ = "Movie"
 
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(64), unique=True, index=True)
     rate = db.Column(db.Integer)
     description = db.Column(db.Text)
-    name = db.Column(db.String(64))
-    poster_link = db.Column(db.String(128))
+    name = db.Column(db.String(150))
+    poster_link = db.Column(db.String(250))
     released = db.Column(db.DateTime)
     production = db.Column(db.String(250))
     genres = db.relationship("Genre", secondary=MovieGenre, backref="genre_movies")
@@ -120,3 +168,18 @@ class Movie(db.Model):
 
     def __str__(self):
         return f"{self.name} {self.year}>"
+
+    @classmethod
+    def find_by_name(cls, name):
+        return Movie.query.filter(Movie.name == name).first()
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+        return self
+
+
+# @login_manager.user_loader
+# def load_user(uuid):
+#     return User.query.get(int(uuid))

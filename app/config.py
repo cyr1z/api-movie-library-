@@ -6,6 +6,7 @@ POSTGRES_DB = getenv("POSTGRES_DB")
 APP_NAME = getenv("APP_NAME")
 POSTGRES_USER = getenv("POSTGRES_USER")
 POSTGRES_PASSWORD = getenv("POSTGRES_PASSWORD")
+TMDB_API_KEY = getenv("TMDB_API_KEY")
 
 
 class Config:
@@ -15,6 +16,7 @@ class Config:
     SECRET_KEY = getenv("SECRET_KEY")
     TESTING = False
     CSRF_ENABLED = True
+    FLASK_DB_SEEDS_PATH = getenv("FLASK_DB_SEEDS_PATH")
     SQLALCHEMY_DATABASE_URI = (
         f"postgresql://"
         f"{POSTGRES_USER}:{POSTGRES_PASSWORD}"

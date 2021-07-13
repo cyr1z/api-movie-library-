@@ -3,17 +3,33 @@ Country List Api
 
 """
 from flask import request
-from flask_restx import Resource
+from flask_restx import Resource, fields, Namespace
 from marshmallow import ValidationError
 
-from app.app import db
-from app.models import Country
+from app.app import api
+from app.models import Country, db
 from app.schemas.countries import CountrySchema
+
+country_fields = api.model(
+    'Country name', {
+        "id": fields.Integer,
+        "name": fields.String,
+    }
+)
+country_name = api.model(
+    'Country name', {
+        "name": fields.String,
+    }
+)
+
+
+country_namespace = Namespace("countries_namespace")
 
 
 class CountryListApi(Resource):
     """Country List Api"""
     country_schema = CountrySchema()
+
 
     def get(self, uuid=None):
         """Output a list, or a single country"""
@@ -28,6 +44,7 @@ class CountryListApi(Resource):
 
         return self.country_schema.dump(country), 200
 
+    @country_namespace.expect(country_name, validate=True)
     def post(self):
         """Adding a country"""
 
@@ -40,6 +57,7 @@ class CountryListApi(Resource):
         db.session.commit()
         return self.country_schema.dump(country), 201
 
+    @country_namespace.expect(country_name, validate=True)
     def put(self, uuid: int):
         """Changing a country"""
 
@@ -57,6 +75,7 @@ class CountryListApi(Resource):
         db.session.add(country)
         db.session.commit()
         return self.country_schema.dump(country), 200
+
 
     @staticmethod
     def delete(uuid: int):

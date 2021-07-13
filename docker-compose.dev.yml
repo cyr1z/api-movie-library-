@@ -16,7 +16,7 @@ services:
     container_name: ${APP_NAME}
     hostname: ${APP_NAME}
     build:
-      context: ../movie_lib
+      context: .
       dockerfile: Dockerfile.dev
     depends_on:
       db:
@@ -29,7 +29,7 @@ services:
     volumes:
       - ./data:/data
       - ./tests:/tests
-      - ./migrations:/migrations
+      - ./db:/db
       - ./app:/app
     links:
       - db:pgsql-server

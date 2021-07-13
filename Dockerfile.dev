@@ -2,6 +2,7 @@ FROM python:3.8
 # COPY /app /app
 COPY pyproject.toml .
 COPY wsgi.py .
+COPY alembic.ini .
 # COPY tests /tests/
 #WORKDIR /app
 RUN pip3 install poetry
