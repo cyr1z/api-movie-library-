@@ -10,7 +10,7 @@ from app.schemas.movies import MovieSchema
 
 
 class MovieListApi(Resource):
-    """ Movie List Api """
+    """Movie List Api"""
 
     movie_schema = MovieSchema()
 

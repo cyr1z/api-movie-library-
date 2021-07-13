@@ -12,6 +12,8 @@ from sqlalchemy import func
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
+from app.app import login_manager
+
 db = SQLAlchemy()
 
 
@@ -99,7 +101,6 @@ class Genre(db.Model):
     def save(self):
         db.session.add(self)
         db.session.commit()
-
         return self
 
 
@@ -118,7 +119,6 @@ class Director(db.Model):
     def save(self):
         db.session.add(self)
         db.session.commit()
-
         return self
 
 
@@ -138,7 +138,6 @@ class Country(db.Model):
     def save(self):
         db.session.add(self)
         db.session.commit()
-
         return self
 
 
@@ -180,6 +179,6 @@ class Movie(db.Model):
         return self
 
 
-# @login_manager.user_loader
-# def load_user(uuid):
-#     return User.query.get(int(uuid))
+@login_manager.user_loader
+def load_user(uuid):
+    return User.query.get(int(uuid))
