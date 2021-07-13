@@ -1,3 +1,7 @@
+"""
+Login Api
+
+"""
 from flask import request, jsonify
 from flask_login import login_user, logout_user
 from flask_restx import Namespace, Resource, fields
@@ -29,12 +33,14 @@ class Login(Resource):
         """
         post_data = request.get_json()
         user = User.find_by_username(post_data.get("username"))
-        result = jsonify({'result': 200, 'data': {'message': 'login success'}})
+        result = jsonify({"result": 200, "data": {"message": "login success"}})
 
-        if user and user.verify_password(post_data['password']):
+        if user and user.verify_password(post_data["password"]):
             login_user(user)
         else:
-            result = jsonify({"status": 401, "reason": "Incorrect username or password"})
+            result = jsonify(
+                {"status": 401, "reason": "Incorrect username or password"}
+            )
 
         return result
 
@@ -50,4 +56,4 @@ class Logout(Resource):
         :return: error message or successful message
         """
         logout_user()
-        return jsonify({'result': 200, 'data': {'message': 'logout success'}})
+        return jsonify({"result": 200, "data": {"message": "logout success"}})
