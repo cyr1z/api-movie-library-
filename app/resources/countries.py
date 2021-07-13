@@ -3,6 +3,7 @@ Country List Api
 
 """
 from flask import request
+from flask_login import login_required
 from flask_restx import Resource, fields, Namespace
 from marshmallow import ValidationError
 
@@ -46,6 +47,7 @@ class CountryListApi(Resource):
 
         return self.country_schema.dump(country), 200
 
+    @login_required
     @country_namespace.expect(country_name, validate=True)
     def post(self):
         """Adding a country"""

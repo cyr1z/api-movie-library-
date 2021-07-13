@@ -1,6 +1,7 @@
 """ Movie List Api """
 
 from flask import request
+from flask_login import login_required
 from flask_restx import Resource
 from marshmallow import ValidationError
 
@@ -27,6 +28,7 @@ class MovieListApi(Resource):
 
         return self.movie_schema.dump(movie), 200
 
+    @login_required
     def post(self):
         """Adding a movie"""
 

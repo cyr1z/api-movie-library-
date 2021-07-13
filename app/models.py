@@ -12,7 +12,6 @@ from sqlalchemy import func
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from app.login import login_manager
 
 db = SQLAlchemy()
 
@@ -177,8 +176,3 @@ class Movie(db.Model):
         db.session.commit()
 
         return self
-
-
-@login_manager.user_loader
-def load_user(uuid):
-    return User.query.get(int(uuid))
