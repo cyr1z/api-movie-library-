@@ -1,15 +1,11 @@
 """ Top level module """
 
 from flask import Flask
-from flask_restx import Api
-from flask_login import LoginManager
 
+from .api import api
+from .login import login_manager
 from .models import Country, User, Movie, Genre, Director, db
-from app.config import Config
-
-api = Api()
-login_manager = LoginManager()
-login_manager.login_message_category = "info"
+from .config import Config
 
 
 def create_app():

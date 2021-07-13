@@ -12,7 +12,7 @@ from sqlalchemy import func
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from app.app import login_manager
+from app.login import login_manager
 
 db = SQLAlchemy()
 

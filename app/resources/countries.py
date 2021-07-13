@@ -6,7 +6,7 @@ from flask import request
 from flask_restx import Resource, fields, Namespace
 from marshmallow import ValidationError
 
-from app.app import api
+from app.api import api
 from app.models import Country, db
 from app.schemas.countries import CountrySchema
 
