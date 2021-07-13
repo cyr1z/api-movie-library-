@@ -6,14 +6,13 @@ Movie, Director, Country, Genre models
 """
 
 from datetime import datetime
-from random import random, randint
-
 from flask_login import UserMixin
+from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from app.app import db
+db = SQLAlchemy()
 
 
 class User(UserMixin, db.Model):
@@ -152,7 +151,7 @@ class Movie(db.Model):
     rate = db.Column(db.Integer)
     description = db.Column(db.Text)
     name = db.Column(db.String(150))
-    poster_link = db.Column(db.String(150))
+    poster_link = db.Column(db.String(250))
     released = db.Column(db.DateTime)
     production = db.Column(db.String(250))
     genres = db.relationship("Genre", secondary=MovieGenre, backref="genre_movies")

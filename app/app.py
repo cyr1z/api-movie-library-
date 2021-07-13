@@ -1,38 +1,38 @@
 """ Top level module """
 
 from flask import Flask
-from flask_migrate import Migrate
 from flask_restx import Api
-from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-# import click
-# from seeder import ResolvingSeeder
 
+from .models import Country, User, Movie, Genre, Director, db
 from app.config import Config
 
-app = Flask(__name__)
-app.config.from_object(Config)
-# initialize the database connection
-db = SQLAlchemy(app)
-# initialize database migration management
-migrate = Migrate(app, db)
-# API initialize
-api = Api(
-    app,
-    title='API Movie Library',
-    description='A simple movie library API',
-    version='1.0'
-)
-
-# login = LoginManager(app)
-
-from .models import Country, User, Movie, Genre, Director
-from . import routes
-#
-# login_manager = LoginManager(app)
+api = Api()
+# login_manager = LoginManager()
 # login_manager.login_message_category = "info"
 
-from .models import Country, User, Movie, Genre, Director
+
+def create_app():
+    """ app create """
+    app = Flask(__name__)
+    app.config.from_object(Config)
+
+    # initialize the database connection
+    db.init_app(app)
+    # API initialize
+    api.init_app(
+        app,
+        title='API Movie Library',
+        description='A simple movie library API',
+        version='1.0'
+    )
+    # login_manager.init_app(app)
+
+    return app
+
+
+app = create_app()
+
 from . import routes
 
 

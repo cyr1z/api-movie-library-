@@ -97,7 +97,7 @@ tag-version: ## Generate container `latest` tag
 	@echo 'create tag $(VERSION)'
 	docker tag $(APP_NAME) $(DOCKER_REPO):$(VERSION)
 
-shell: ## run bash in container
+bash: ## run bash in container
 	docker exec -i -t $(APP_NAME) bash
 
 sh: ## run sh in container

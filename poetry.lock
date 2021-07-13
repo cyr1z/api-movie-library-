@@ -182,19 +182,6 @@ python-versions = "*"
 Flask = "*"
 
 [[package]]
-name = "flask-migrate"
-version = "3.0.1"
-description = "SQLAlchemy database migrations for Flask applications using Alembic"
-category = "main"
-optional = false
-python-versions = "*"
-
-[package.dependencies]
-alembic = ">=0.7"
-Flask = ">=0.9"
-Flask-SQLAlchemy = ">=1.0"
-
-[[package]]
 name = "flask-restx"
 version = "0.4.0"
 description = "Fully featured framework for fast, easy and documented API development with Flask"
@@ -659,7 +646,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "f50047e8f1c87bc384da0f8969d3aa3fc4ae40839b34f2d04da961bbc761ac56"
+content-hash = "5e28671744b8223acf700df4b4874d12c993bbe1055d0800a6b9eb22736f6a55"
 
 [metadata.files]
 alembic = [
@@ -719,10 +706,6 @@ flask-db = [
 flask-login = [
     {file = "Flask-Login-0.5.0.tar.gz", hash = "sha256:6d33aef15b5bcead780acc339464aae8a6e28f13c90d8b1cf9de8b549d1c0b4b"},
     {file = "Flask_Login-0.5.0-py2.py3-none-any.whl", hash = "sha256:7451b5001e17837ba58945aead261ba425fdf7b4f0448777e597ddab39f4fba0"},
-]
-flask-migrate = [
-    {file = "Flask-Migrate-3.0.1.tar.gz", hash = "sha256:4d42e8f861d78cb6e9319afcba5bf76062e5efd7784184dd2a1cccd9de34a702"},
-    {file = "Flask_Migrate-3.0.1-py2.py3-none-any.whl", hash = "sha256:df9043d2050df3c0e0f6313f6b529b62c837b6033c20335e9d0b4acdf2c40e23"},
 ]
 flask-restx = [
     {file = "flask-restx-0.4.0.tar.gz", hash = "sha256:8bdbfd8ad2949383c490b3b180481c0e9f70163230a5b567a56592c82f7c5cb0"},
