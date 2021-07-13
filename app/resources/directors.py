@@ -13,7 +13,7 @@ from app.schemas.directors import DirectorSchema
 
 
 class DirectorListApi(Resource):
-    """ Directors List Api """
+    """Directors List Api"""
 
     director_schema = DirectorSchema()
 

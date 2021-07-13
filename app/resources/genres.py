@@ -12,7 +12,7 @@ from app.schemas.genres import GenreSchema
 
 
 class GenreListApi(Resource):
-    """ Genre List Api """
+    """Genre List Api"""
 
     genre_schema = GenreSchema()
 
