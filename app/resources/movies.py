@@ -14,13 +14,13 @@ movie_fields = api.model(
     {
         "rate": fields.Integer,
         "description": fields.String,
-        "name": fields.String,
+        "name": fields.String(required=True),
         "poster_link": fields.Url,
         "released": fields.Date,
         "production": fields.String,
-        # "genres": fields.List,
-        # "directors": fields.List,
-        # "country": fields.String,
+        "genres": fields.String,
+        "directors": fields.String,
+        "country": fields.String,
     },
 )
 
