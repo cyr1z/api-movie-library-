@@ -1,7 +1,7 @@
 """ Movie List Api """
 
-from flask import request
-from flask_login import login_required
+from flask import request, current_app
+from flask_login import login_required, current_user
 from flask_restx import Resource
 from marshmallow import ValidationError
 
@@ -15,18 +15,11 @@ class MovieListApi(Resource):
 
     movie_schema = MovieSchema()
 
-    def get(self, uuid=None):
-        """Output a list, or a single movie"""
+    def get(self):
+        """Output a list movies"""
 
-        if not uuid:
-            movies = db.session.query(Movie).all()
-            return self.movie_schema.dump(movies, many=True), 200
-
-        movie = db.session.query(Movie).filter_by(id=uuid).first()
-        if not movie:
-            return {"Error": "Object was not found"}, 404
-
-        return self.movie_schema.dump(movie), 200
+        movies = db.session.query(Movie).all()
+        return self.movie_schema.dump(movies, many=True), 200
 
     @login_required
     def post(self):
@@ -47,6 +40,16 @@ class MovieApi(Resource):
 
     movie_schema = MovieSchema()
 
+    def get(self, uuid=None):
+        """Output a single movie"""
+
+        movie = db.session.query(Movie).filter_by(id=uuid).first()
+        if not movie:
+            return {"Error": "Object was not found"}, 404
+
+        return self.movie_schema.dump(movie), 200
+
+    @login_required
     def put(self, uuid: id):
         """Changing a movie"""
 
@@ -54,25 +57,31 @@ class MovieApi(Resource):
         if not movie:
             return {"Error": "Object was not found"}, 404
 
-        try:
-            movie = self.movie_schema.load(
-                request.json, instance=movie, session=db.session
-            )
-        except ValidationError as error:
-            return {"Error": str(error)}, 400
+        if current_user.is_admin or current_user == movie.user:
+            try:
+                movie = self.movie_schema.load(
+                    request.json, instance=movie, session=db.session
+                )
+            except ValidationError as error:
+                return {"Error": str(error)}, 400
 
-        db.session.add(movie)
-        db.session.commit()
-        return self.movie_schema.dump(movie), 200
+            db.session.add(movie)
+            db.session.commit()
+            return self.movie_schema.dump(movie), 200
+        else:
+            return current_app.login_manager.unauthorized()
 
     @staticmethod
+    @login_required
     def delete(uuid: int):
         """Delete a movie"""
 
         movie = db.session.query(Movie).filter_by(id=uuid).first()
         if not movie:
             return "", 404
-
-        db.session.delete(movie)
-        db.session.commit()
-        return {"Success": "Deleted successfully"}, 200
+        if current_user.is_admin or current_user == movie.user:
+            db.session.delete(movie)
+            db.session.commit()
+            return {"Success": "Deleted successfully"}, 200
+        else:
+            return current_app.login_manager.unauthorized()

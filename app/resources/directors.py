@@ -4,12 +4,14 @@ Directors List Api
 
 """
 from flask import request
+from flask_login import login_required
 from flask_restx import Resource
 from marshmallow import ValidationError
 
 from app.app import db
 from app.models import Director
 from app.schemas.directors import DirectorSchema
+from app.utils.admin_required import admin_required
 
 
 class DirectorListApi(Resource):
@@ -17,30 +19,24 @@ class DirectorListApi(Resource):
 
     director_schema = DirectorSchema()
 
-    def get(self, uuid=None):
+    def get(self):
         """Output a list, or a single director"""
 
-        if not uuid:
-            directors = db.session.query(Director).all()
-            return self.director_schema.dump(directors, many=True), 200
+        directors = db.session.query(Director).all()
+        return self.director_schema.dump(directors, many=True), 200
 
-        director = db.session.query(Director).filter_by(id=uuid).first()
-        if not director:
-            return {"Error": "Object was not found"}, 404
-
-        return self.director_schema.dump(director), 200
-
-    def post(self):
-        """Adding a director"""
-
-        try:
-            director = self.director_schema.load(request.json, session=db.session)
-        except ValidationError as error:
-            return {"Error": str(error)}, 400
-
-        db.session.add(director)
-        db.session.commit()
-        return self.director_schema.dump(director), 201
+    # @login_required
+    # def post(self):
+    #     """Adding a director"""
+    #
+    #     try:
+    #         director = self.director_schema.load(request.json, session=db.session)
+    #     except ValidationError as error:
+    #         return {"Error": str(error)}, 400
+    #
+    #     db.session.add(director)
+    #     db.session.commit()
+    #     return self.director_schema.dump(director), 201
 
 
 class DirectorApi(Resource):
@@ -48,25 +44,38 @@ class DirectorApi(Resource):
 
     director_schema = DirectorSchema()
 
-    def put(self, uuid: int):
-        """Changing a director"""
+    def get(self, uuid=None):
+        """Output a list of directors"""
 
         director = db.session.query(Director).filter_by(id=uuid).first()
         if not director:
             return {"Error": "Object was not found"}, 404
 
-        try:
-            director = self.director_schema.load(
-                request.json, instance=director, session=db.session
-            )
-        except ValidationError as error:
-            return {"Error": str(error)}, 400
-
-        db.session.add(director)
-        db.session.commit()
         return self.director_schema.dump(director), 200
 
+    # @login_required
+    # @admin_required
+    # def put(self, uuid: int):
+    #     """Changing a director"""
+    #
+    #     director = db.session.query(Director).filter_by(id=uuid).first()
+    #     if not director:
+    #         return {"Error": "Object was not found"}, 404
+    #
+    #     try:
+    #         director = self.director_schema.load(
+    #             request.json, instance=director, session=db.session
+    #         )
+    #     except ValidationError as error:
+    #         return {"Error": str(error)}, 400
+    #
+    #     db.session.add(director)
+    #     db.session.commit()
+    #     return self.director_schema.dump(director), 200
+
     @staticmethod
+    @login_required
+    @admin_required
     def delete(uuid: int):
         """Deleting a director"""
 
