@@ -129,3 +129,15 @@ class MovieApi(Resource):
             return {"Success": "Deleted successfully"}, 200
         else:
             return current_app.login_manager.unauthorized()
+
+
+class MovieSearchApi(Resource):
+    """Search Movie Api"""
+
+    movie_schema = MovieSchema()
+
+    def get(self, target):
+        """Output matched movies"""
+
+        movies = Movie.search(target)
+        return self.movie_schema.dump(movies, many=True), 200
