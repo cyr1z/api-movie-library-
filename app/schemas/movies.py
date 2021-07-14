@@ -1,7 +1,12 @@
-from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
+from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, auto_field
 from marshmallow_sqlalchemy.fields import Nested
 
 from app.models import Movie
+from app.schemas.countries import CountrySchema
+
+# from app.schemas.directors import DirectorSchema
+from app.schemas.genres import GenreSchema
+from app.schemas.users import UserSchema
 
 
 class MovieSchema(SQLAlchemyAutoSchema):
@@ -11,4 +16,8 @@ class MovieSchema(SQLAlchemyAutoSchema):
         load_instance = True
         include_fk = True
 
-    # directors = Nested("DirectorSchema", many=True, exclude=("movies",))
+    directors = Nested("DirectorSchema", many=True)
+    genres = Nested(GenreSchema, many=True)
+    country = Nested(CountrySchema, many=False)
+    id = auto_field()
+    user = Nested(UserSchema, many=False)

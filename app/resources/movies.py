@@ -2,12 +2,29 @@
 
 from flask import request, current_app
 from flask_login import login_required, current_user
-from flask_restx import Resource
+from flask_restx import Resource, fields, Namespace
 from marshmallow import ValidationError
 
-from app.app import db
-from app.models import Movie
+from app.api import api
+from app.models import Movie, db
 from app.schemas.movies import MovieSchema
+
+movie_fields = api.model(
+    "Movie",
+    {
+        "rate": fields.Integer,
+        "description": fields.String,
+        "name": fields.String,
+        "poster_link": fields.Url,
+        "released": fields.Date,
+        "production": fields.String,
+        # "genres": fields.List,
+        # "directors": fields.List,
+        # "country": fields.String,
+    },
+)
+
+movie_namespace = Namespace("movie_namespace")
 
 
 class MovieListApi(Resource):
@@ -22,6 +39,7 @@ class MovieListApi(Resource):
         return self.movie_schema.dump(movies, many=True), 200
 
     @login_required
+    @movie_namespace.expect(movie_fields, validate=True)
     def post(self):
         """Adding a movie"""
 
@@ -50,6 +68,7 @@ class MovieApi(Resource):
         return self.movie_schema.dump(movie), 200
 
     @login_required
+    @movie_namespace.expect(movie_fields, validate=True)
     def put(self, uuid: id):
         """Changing a movie"""
 

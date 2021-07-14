@@ -5,13 +5,23 @@ Directors List Api
 """
 from flask import request
 from flask_login import login_required
-from flask_restx import Resource
+from flask_restx import Resource, fields, Namespace
 from marshmallow import ValidationError
 
+from app.api import api
 from app.app import db
 from app.models import Director
 from app.schemas.directors import DirectorSchema
 from app.utils.admin_required import admin_required
+
+director_fields = api.model(
+    "Director",
+    {
+        "name": fields.String,
+    },
+)
+
+director_namespace = Namespace("director_namespace")
 
 
 class DirectorListApi(Resource):
