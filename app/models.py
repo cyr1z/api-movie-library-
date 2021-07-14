@@ -6,12 +6,11 @@ Movie, Director, Country, Genre models
 """
 
 from datetime import datetime
+
 from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func
-
 from werkzeug.security import generate_password_hash, check_password_hash
-
 
 db = SQLAlchemy()
 
@@ -102,6 +101,13 @@ class Genre(db.Model):
         db.session.commit()
         return self
 
+    @classmethod
+    def get_or_create(cls, name):
+        item = cls.find_by_name(name)
+        if not item:
+            item = cls(name=name)
+            return item.save()
+
 
 class Director(db.Model):
     """Director model"""
@@ -119,6 +125,13 @@ class Director(db.Model):
         db.session.add(self)
         db.session.commit()
         return self
+
+    @classmethod
+    def get_or_create(cls, name):
+        item = cls.find_by_name(name)
+        if not item:
+            item = cls(name=name)
+            return item.save()
 
 
 class Country(db.Model):
@@ -138,6 +151,13 @@ class Country(db.Model):
         db.session.add(self)
         db.session.commit()
         return self
+
+    @classmethod
+    def get_or_create(cls, name, short):
+        item = cls.find_by_short(short)
+        if not item:
+            item = cls(name=name, short=short)
+            return item.save()
 
 
 class Movie(db.Model):
@@ -174,5 +194,4 @@ class Movie(db.Model):
     def save(self):
         db.session.add(self)
         db.session.commit()
-
         return self

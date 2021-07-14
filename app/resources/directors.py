@@ -3,10 +3,8 @@
 Directors List Api
 
 """
-from flask import request
 from flask_login import login_required
 from flask_restx import Resource, fields, Namespace
-from marshmallow import ValidationError
 
 from app.api import api
 from app.app import db

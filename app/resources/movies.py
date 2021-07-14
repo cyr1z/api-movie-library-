@@ -6,13 +6,13 @@ from flask_restx import Resource, fields, Namespace
 from marshmallow import ValidationError
 
 from app.api import api
-from app.models import Movie, db
+from app.models import Movie, db, Country, Genre, Director
 from app.schemas.movies import MovieSchema
 
 movie_fields = api.model(
     "Movie",
     {
-        "rate": fields.Integer,
+        "rate": fields.Integer(min=0, max=10),
         "description": fields.String,
         "name": fields.String(required=True),
         "poster_link": fields.Url,
@@ -38,19 +38,44 @@ class MovieListApi(Resource):
         movies = db.session.query(Movie).all()
         return self.movie_schema.dump(movies, many=True), 200
 
+    # @login_required
+    # @api.expect(movie_fields, validate=True)
+    # def post(self):
+    #     """Adding a movie"""
+    #
+    #     try:
+    #         movie = self.movie_schema.load(request.json, session=db.session)
+    #     except ValidationError as error:
+    #         return {"Error": str(error)}, 400
+    #
+    #     db.session.add(movie)
+    #     db.session.commit()
+    #     return self.movie_schema.dump(movie), 201
+
     @login_required
-    @movie_namespace.expect(movie_fields, validate=True)
+    @api.expect(movie_fields, validate=True)
     def post(self):
         """Adding a movie"""
 
-        try:
-            movie = self.movie_schema.load(request.json, session=db.session)
-        except ValidationError as error:
-            return {"Error": str(error)}, 400
+        data = request.json
+        movie = Movie()
 
-        db.session.add(movie)
-        db.session.commit()
-        return self.movie_schema.dump(movie), 201
+        movie.user = current_user
+        movie.rate = data["rate"]
+        movie.description = data["description"]
+        movie.name = data["name"]
+        movie.poster_link = data["poster_link"]
+        movie.released = data["released"]
+        movie.production = data["production"]
+        movie.country = Country.get_or_create(
+            data["country"]["name"], data["country"]["short"]
+        )
+        for genre in data["genres"]:
+            movie.genres.append(Genre.get_or_create(genre))
+        for director in data["directors"]:
+            movie.directors.append(Director.get_or_create(director))
+
+        return movie.save()
 
 
 class MovieApi(Resource):

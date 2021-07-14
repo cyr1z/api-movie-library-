@@ -8,7 +8,6 @@ from marshmallow_sqlalchemy.fields import Nested
 
 from app.models import Movie
 from app.schemas.countries import CountrySchema
-
 from app.schemas.directors import DirectorSchema
 from app.schemas.genres import GenreSchema
 from app.schemas.users import UserSchema

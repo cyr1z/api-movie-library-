@@ -20,6 +20,8 @@ Faker = "^8.9.1"
 sqlalchemy-seeder = "^0.3.0"
 Flask-DB = "^0.3.2"
 data = "^0.4"
+production = "^0.0.0"
+short = "^1.0.6"
 
 [tool.poetry.dev-dependencies]
 
