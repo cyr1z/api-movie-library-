@@ -1,12 +1,12 @@
 """
 Seeds
 """
-from random import randint
+
+import json
 
 from faker import Faker
 
 from app.models import Country, Director, Genre, User, Movie
-import json
 
 # Country
 with open("/data/countries.json") as json_file:

@@ -63,7 +63,7 @@ class CountryListApi(Resource):
 
     @country_namespace.expect(country_name, validate=True)
     def put(self, uuid: int):
-        """Changing a country"""
+        """ Changing a country """
 
         country = db.session.query(Country).filter_by(id=uuid).first()
         if not country:

@@ -1,3 +1,8 @@
+"""
+Movie scheme
+
+"""
+
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, auto_field
 from marshmallow_sqlalchemy.fields import Nested
 
@@ -10,6 +15,7 @@ from app.schemas.users import UserSchema
 
 
 class MovieSchema(SQLAlchemyAutoSchema):
+    """ Movie scheme """
     class Meta:
         model = Movie
         exclude = ["id"]
