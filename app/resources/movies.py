@@ -41,6 +41,12 @@ class MovieListApi(Resource):
         db.session.commit()
         return self.movie_schema.dump(movie), 201
 
+
+class MovieApi(Resource):
+    """Movie Api"""
+
+    movie_schema = MovieSchema()
+
     def put(self, uuid: id):
         """Changing a movie"""
 

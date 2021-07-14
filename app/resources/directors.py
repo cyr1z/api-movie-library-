@@ -31,7 +31,7 @@ class DirectorListApi(Resource):
         return self.director_schema.dump(director), 200
 
     def post(self):
-        """Adding an director"""
+        """Adding a director"""
 
         try:
             director = self.director_schema.load(request.json, session=db.session)
@@ -42,8 +42,14 @@ class DirectorListApi(Resource):
         db.session.commit()
         return self.director_schema.dump(director), 201
 
+
+class DirectorApi(Resource):
+    """Directors List Api"""
+
+    director_schema = DirectorSchema()
+
     def put(self, uuid: int):
-        """Changing an director"""
+        """Changing a director"""
 
         director = db.session.query(Director).filter_by(id=uuid).first()
         if not director:
@@ -62,7 +68,7 @@ class DirectorListApi(Resource):
 
     @staticmethod
     def delete(uuid: int):
-        """Deleting an director"""
+        """Deleting a director"""
 
         director = db.session.query(Director).filter_by(id=uuid).first()
         if not director:
