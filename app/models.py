@@ -6,12 +6,11 @@ Movie, Director, Country, Genre models
 """
 
 from datetime import datetime
+
 from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func
-
 from werkzeug.security import generate_password_hash, check_password_hash
-
 
 db = SQLAlchemy()
 
@@ -66,7 +65,6 @@ class User(UserMixin, db.Model):
     def save(self):
         db.session.add(self)
         db.session.commit()
-
         return self
 
 
@@ -102,6 +100,14 @@ class Genre(db.Model):
         db.session.commit()
         return self
 
+    @classmethod
+    def get_or_create(cls, name):
+        genre = Genre.find_by_name(name)
+        if not genre:
+            genre = Genre(name=name)
+            genre.save()
+        return genre
+
 
 class Director(db.Model):
     """Director model"""
@@ -119,6 +125,14 @@ class Director(db.Model):
         db.session.add(self)
         db.session.commit()
         return self
+
+    @classmethod
+    def get_or_create(cls, name):
+        director = Director.find_by_name(name)
+        if not director:
+            director = Director(name=name)
+            director.save()
+        return director
 
 
 class Country(db.Model):
@@ -138,6 +152,14 @@ class Country(db.Model):
         db.session.add(self)
         db.session.commit()
         return self
+
+    @classmethod
+    def get_or_create(cls, name, short):
+        country = Country.find_by_short(short)
+        if not country:
+            country = Country(name=name, short=short)
+            country.save()
+        return country
 
 
 class Movie(db.Model):
@@ -171,8 +193,13 @@ class Movie(db.Model):
     def find_by_name(cls, name):
         return Movie.query.filter(Movie.name == name).first()
 
+    @classmethod
+    def search(cls, target):
+        return (
+            Movie.query.filter(Movie.name.contains(target)).order_by(Movie.rate).all()
+        )
+
     def save(self):
         db.session.add(self)
         db.session.commit()
-
         return self

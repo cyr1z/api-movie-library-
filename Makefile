@@ -29,6 +29,7 @@ up: ## Up container from registry image
 	docker-compose -f docker-compose.yml up -d
 
 dev-up: ## Run container on port configured in `.env`
+	black .
 	docker-compose -f docker-compose.dev.yml  up --build
 
 run: ##  Run container on port configured in `.env` with -d (background mode)
@@ -97,7 +98,7 @@ tag-version: ## Generate container `latest` tag
 	@echo 'create tag $(VERSION)'
 	docker tag $(APP_NAME) $(DOCKER_REPO):$(VERSION)
 
-bash: ## run bash in container
+shell: ## run bash in container
 	docker exec -i -t $(APP_NAME) bash
 
 sh: ## run sh in container

@@ -1,19 +1,16 @@
 """ Api routes """
 
 from app.app import api
-from app.resources.countries import CountryListApi
-from app.resources.directors import DirectorListApi
-from app.resources.genres import GenreListApi
+from app.resources.directors import DirectorListApi, DirectorApi
 from app.resources.login import Login, Logout
-from app.resources.movies import MovieListApi
-from app.resources.users import UserListApi
+from app.resources.movies import MovieListApi, MovieApi, MovieSearchApi
 
 route = api.add_resource
 
-route(MovieListApi, "/movies", "/movies/<uuid>", strict_slashes=False)
-route(UserListApi, "/users", "/users/<uuid>", strict_slashes=False)
-route(GenreListApi, "/genres", "/genres/<uuid>", strict_slashes=False)
-route(CountryListApi, "/countries", "/countries/<uuid>", strict_slashes=False)
-route(DirectorListApi, "/directors", "/directors/<uuid>", strict_slashes=False)
+route(MovieListApi, "/movies", strict_slashes=False)
+route(MovieApi, "/movies/<uuid>", strict_slashes=False)
+route(DirectorListApi, "/directors", strict_slashes=False)
+route(DirectorApi, "/directors/<uuid>", strict_slashes=False)
 route(Login, "/login", strict_slashes=False)
 route(Logout, "/logout", strict_slashes=False)
+route(MovieSearchApi, "/search/<target>", strict_slashes=False)
