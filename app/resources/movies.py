@@ -7,7 +7,7 @@ from flask_restx.reqparse import RequestParser
 from marshmallow import ValidationError
 
 from app.api import api
-from app.models import Movie, db, Country, Genre, Director
+from app.models import Movie, Country, Genre, Director
 from app.schemas.movies import MovieSchema
 
 movie_fields = api.model(
@@ -50,20 +50,6 @@ class MovieListApi(Resource):
 
         movies = Movie.query.paginate(page, per_page, error_out=False).items
         return self.movie_schema.dump(movies, many=True), 200
-
-    # @login_required
-    # @api.expect(movie_fields, validate=True)
-    # def post(self):
-    #     """Adding a movie"""
-    #
-    #     try:
-    #         movie = self.movie_schema.load(request.json, session=db.session)
-    #     except ValidationError as error:
-    #         return {"Error": str(error)}, 400
-    #
-    #     db.session.add(movie)
-    #     db.session.commit()
-    #     return self.movie_schema.dump(movie), 201
 
     @login_required
     @api.expect(movie_fields, validate=True)

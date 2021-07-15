@@ -41,7 +41,6 @@ class Login(Resource):
             result = jsonify(
                 {"status": 401, "reason": "Incorrect username or password"}
             )
-
         return result
 
 
