@@ -2,7 +2,7 @@
 
 from flask import request, current_app
 from flask_login import login_required, current_user
-from flask_restx import Resource, fields, Namespace
+from flask_restx import Resource, fields
 from flask_restx.reqparse import RequestParser
 from marshmallow import ValidationError
 
@@ -25,8 +25,6 @@ movie_fields = api.model(
         "country_short": fields.String,
     },
 )
-
-movie_namespace = Namespace("movie_namespace")
 
 pagination_parser = RequestParser()
 pagination_parser.add_argument(
@@ -105,45 +103,55 @@ class MovieApi(Resource):
     def get(self, uuid=None):
         """Output a single movie"""
 
-        movie = db.session.query(Movie).filter_by(id=uuid).first()
+        movie = Movie.query.filter_by(id=uuid).first()
         if not movie:
             return {"Error": "Object was not found"}, 404
 
         return self.movie_schema.dump(movie), 200
 
     @login_required
-    @movie_namespace.expect(movie_fields, validate=True)
+    @api.expect(movie_fields, validate=True)
     def put(self, uuid: id):
         """Changing a movie"""
 
-        movie = db.session.query(Movie).filter_by(id=uuid).first()
+        movie = Movie.query.filter_by(id=uuid).first()
+        data = request.json
+
         if not movie:
             return {"Error": "Object was not found"}, 404
 
-        if current_user.is_admin or current_user == movie.user:
-            try:
-                movie = self.movie_schema.load(
-                    request.json, instance=movie, session=db.session
-                )
-            except ValidationError as error:
-                return {"Error": str(error)}, 400
-
-            movie.save()
-            return self.movie_schema.dump(movie), 200
-        else:
+        if not current_user.is_admin and current_user != movie.user:
             return current_app.login_manager.unauthorized()
+
+        movie.rate = data["rate"]
+        movie.description = data["description"]
+        movie.name = data["name"]
+        movie.poster_link = data["poster_link"]
+        movie.released = data["released"]
+        movie.production = data["production"]
+        movie.country = Country.get_or_create(
+            data["country_name"], data["country_short"]
+        )
+        for genre in data["genres"]:
+            movie.genres.append(Genre.get_or_create(genre))
+        for director in data["directors"]:
+            movie.directors.append(Director.get_or_create(director))
+        try:
+            movie.save()
+        except ValidationError as error:
+            return {"Error": str(error)}, 400
+        return self.movie_schema.dump(movie), 201
 
     @staticmethod
     @login_required
     def delete(uuid: int):
         """Delete a movie"""
 
-        movie = db.session.query(Movie).filter_by(id=uuid).first()
+        movie = Movie.query.filter_by(id=uuid).first()
         if not movie:
             return "", 404
         if current_user.is_admin or current_user == movie.user:
-            db.session.delete(movie)
-            db.session.commit()
+            movie.save()
             return {"Success": "Deleted successfully"}, 200
         else:
             return current_app.login_manager.unauthorized()
