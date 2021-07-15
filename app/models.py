@@ -102,11 +102,12 @@ class Genre(db.Model):
 
     @classmethod
     def get_or_create(cls, name):
-        item = cls.find_by_name(name)
-        if not item:
-            item = cls(name=name)
-            item.save()
-            return item
+        genre = Genre.find_by_name(name)
+        if not genre:
+            genre = Genre(name=name)
+            genre.save()
+            print(genre)
+            return genre
 
 
 class Director(db.Model):
@@ -128,11 +129,12 @@ class Director(db.Model):
 
     @classmethod
     def get_or_create(cls, name):
-        item = cls.find_by_name(name)
-        if not item:
-            item = cls(name=name)
-            item.save()
-            return item
+        director = Director.find_by_name(name)
+        if not director:
+            director = Director(name=name)
+            director.save()
+            print(director)
+            return director
 
 
 class Country(db.Model):
@@ -155,11 +157,11 @@ class Country(db.Model):
 
     @classmethod
     def get_or_create(cls, name, short):
-        item = cls.find_by_short(short)
-        if not item:
-            item = cls(name=name, short=short)
-            item.save()
-            return item
+        country = Country.find_by_short(short)
+        if not country:
+            country = Country(name=name, short=short)
+            country.save()
+            return country
 
 
 class Movie(db.Model):

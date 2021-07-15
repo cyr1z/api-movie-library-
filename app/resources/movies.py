@@ -21,7 +21,8 @@ movie_fields = api.model(
         "production": fields.String,
         "genres": fields.List(fields.String),
         "directors": fields.List(fields.String),
-        "country": fields.String,
+        "country_name": fields.String,
+        "country_short": fields.String,
     },
 )
 
@@ -82,7 +83,7 @@ class MovieListApi(Resource):
         movie.released = data["released"]
         movie.production = data["production"]
         movie.country = Country.get_or_create(
-            data["country"]["name"], data["country"]["short"]
+            data["country_name"], data["country_short"]
         )
         for genre in data["genres"]:
             movie.genres.append(Genre.get_or_create(genre))
