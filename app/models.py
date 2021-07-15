@@ -65,7 +65,6 @@ class User(UserMixin, db.Model):
     def save(self):
         db.session.add(self)
         db.session.commit()
-
         return self
 
 
@@ -106,7 +105,8 @@ class Genre(db.Model):
         item = cls.find_by_name(name)
         if not item:
             item = cls(name=name)
-            return item.save()
+            item.save()
+            return item
 
 
 class Director(db.Model):
@@ -131,7 +131,8 @@ class Director(db.Model):
         item = cls.find_by_name(name)
         if not item:
             item = cls(name=name)
-            return item.save()
+            item.save()
+            return item
 
 
 class Country(db.Model):
@@ -157,7 +158,8 @@ class Country(db.Model):
         item = cls.find_by_short(short)
         if not item:
             item = cls(name=name, short=short)
-            return item.save()
+            item.save()
+            return item
 
 
 class Movie(db.Model):

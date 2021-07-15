@@ -5,6 +5,7 @@ Directors List Api
 """
 from flask_login import login_required
 from flask_restx import Resource, fields, Namespace
+from flask_restx.reqparse import RequestParser
 
 from app.api import api
 from app.app import db
@@ -21,16 +22,30 @@ director_fields = api.model(
 
 director_namespace = Namespace("director_namespace")
 
+pagination_parser = RequestParser()
+pagination_parser.add_argument(
+    "pageNumber", type=int, required=False, default=1, help="Page number"
+)
+pagination_parser.add_argument(
+    "pageSize", type=int, required=False, default=10, help="Page size"
+)
+
 
 class DirectorListApi(Resource):
     """Directors List Api"""
 
     director_schema = DirectorSchema()
 
+    @api.expect(pagination_parser)
     def get(self):
         """Output a list, or a single director"""
 
-        directors = db.session.query(Director).all()
+        p_args = pagination_parser.parse_args()
+
+        page = p_args.get("pageNumber")
+        per_page = p_args.get("pageSize")
+
+        directors = Director.query.paginate(page, per_page, error_out=False).items
         return self.director_schema.dump(directors, many=True), 200
 
     # @login_required
