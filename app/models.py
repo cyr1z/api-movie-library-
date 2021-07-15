@@ -106,8 +106,7 @@ class Genre(db.Model):
         if not genre:
             genre = Genre(name=name)
             genre.save()
-            print(genre)
-            return genre
+        return genre
 
 
 class Director(db.Model):
@@ -133,8 +132,7 @@ class Director(db.Model):
         if not director:
             director = Director(name=name)
             director.save()
-            print(director)
-            return director
+        return director
 
 
 class Country(db.Model):
@@ -161,7 +159,7 @@ class Country(db.Model):
         if not country:
             country = Country(name=name, short=short)
             country.save()
-            return country
+        return country
 
 
 class Movie(db.Model):

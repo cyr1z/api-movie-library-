@@ -94,7 +94,7 @@ class MovieListApi(Resource):
         except ValidationError as error:
             return {"Error": str(error)}, 400
 
-        return movie
+        return self.movie_schema.dump(movie), 201
 
 
 class MovieApi(Resource):
@@ -128,8 +128,7 @@ class MovieApi(Resource):
             except ValidationError as error:
                 return {"Error": str(error)}, 400
 
-            db.session.add(movie)
-            db.session.commit()
+            movie.save()
             return self.movie_schema.dump(movie), 200
         else:
             return current_app.login_manager.unauthorized()
