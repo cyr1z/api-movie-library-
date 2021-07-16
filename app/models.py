@@ -194,13 +194,11 @@ class Movie(db.Model):
     def find_by_name(cls, name):
         return Movie.query.filter(Movie.name == name).first()
 
-    @classmethod
-    def search(cls, target):
-        return (
-            Movie.query.filter(Movie.name.contains(target)).order_by(Movie.rate).all()
-        )
-
     def save(self):
         db.session.add(self)
         db.session.commit()
         return self
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
