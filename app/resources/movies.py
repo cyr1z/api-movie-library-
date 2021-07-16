@@ -34,7 +34,9 @@ parser.add_argument(
 parser.add_argument("pageSize", type=int, required=False, default=10, help="Page size")
 parser.add_argument("searchQuery", type=str, required=False, help="Search query")
 parser.add_argument("directorName", type=str, required=False, help="Director name")
-parser.add_argument("directorId", type=str, required=False, help="Director ID")
+parser.add_argument("directorId", type=int, required=False, help="Director ID")
+parser.add_argument("genreName", type=str, required=False, help="Genre name")
+parser.add_argument("genreId", type=int, required=False, help="Genre ID")
 
 
 class MovieListApi(Resource):
@@ -52,6 +54,8 @@ class MovieListApi(Resource):
         search_query = parser_args.get("searchQuery", "")
         director_name = parser_args.get("directorName", "")
         director_id = parser_args.get("directorId", "")
+        genre_name = parser_args.get("genreName", "")
+        genre_id = parser_args.get("genreId", "")
 
         movies = Movie.query
 
@@ -64,6 +68,16 @@ class MovieListApi(Resource):
                 func.lower(Director.name).contains(director_name.lower())
             ).first()
             movies = movies.filter(Movie.directors.contains(director))
+
+        # By genre
+        if director_id:
+            genre = Genre.query.filter(Genre.id == genre_id).first()
+            movies = movies.filter(Movie.genres.contains(genre))
+        elif genre_name:
+            genre = Genre.query.filter(
+                func.lower(Genre.name).contains(genre_name.lower())
+            ).first()
+            movies = movies.filter(Movie.genres.contains(genre))
 
         # search
         if search_query:
