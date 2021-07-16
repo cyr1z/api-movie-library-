@@ -60,24 +60,36 @@ class MovieListApi(Resource):
         movies = Movie.query
 
         # By director
-        if director_id:
-            director = Director.query.filter(Director.id == director_id).first()
-            movies = movies.filter(Movie.directors.contains(director))
-        elif director_name:
-            director = Director.query.filter(
-                func.lower(Director.name).contains(director_name.lower())
-            ).first()
-            movies = movies.filter(Movie.directors.contains(director))
+        if director_id or director_name:
+            director = None
+            if director_id:
+                director = Director.query.filter(Director.id == director_id).first()
+                if not director:
+                    return {"Error": "Wrong Director ID"}, 404
+            elif director_name:
+                director = Director.query.filter(
+                    func.lower(Director.name).contains(director_name.lower())
+                ).first()
+                if not director:
+                    return {"Error": "Wrong Director name"}, 404
+            if director:
+                movies = movies.filter(Movie.directors.contains(director))
 
         # By genre
-        if director_id:
-            genre = Genre.query.filter(Genre.id == genre_id).first()
-            movies = movies.filter(Movie.genres.contains(genre))
-        elif genre_name:
-            genre = Genre.query.filter(
-                func.lower(Genre.name).contains(genre_name.lower())
-            ).first()
-            movies = movies.filter(Movie.genres.contains(genre))
+        if genre_id or genre_name:
+            genre = None
+            if genre_id:
+                genre = Genre.query.filter(Genre.id == genre_id).first()
+                if not genre:
+                    return {"Error": "Wrong Genre ID"}, 404
+            elif genre_name:
+                genre = Genre.query.filter(
+                    func.lower(Genre.name).contains(genre_name.lower())
+                ).first()
+                if not genre:
+                    return {"Error": "Wrong Genre name"}, 404
+            if genre:
+                movies = movies.filter(Movie.genres.contains(genre))
 
         # search
         if search_query:
