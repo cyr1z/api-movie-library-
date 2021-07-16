@@ -37,6 +37,8 @@ parser.add_argument("directorName", type=str, required=False, help="Director nam
 parser.add_argument("directorId", type=int, required=False, help="Director ID")
 parser.add_argument("genreName", type=str, required=False, help="Genre name")
 parser.add_argument("genreId", type=int, required=False, help="Genre ID")
+parser.add_argument("yearFrom", type=int, required=False, help="from year")
+parser.add_argument("yearTo", type=int, required=False, help="to year")
 
 ORDER_CHOICES = ("date", "dateDesc", "rate", "rateDesc")
 parser.add_argument("orderBy", choices=ORDER_CHOICES, help="Bad order by choice")
@@ -60,6 +62,8 @@ class MovieListApi(Resource):
         genre_name = parser_args.get("genreName", "")
         genre_id = parser_args.get("genreId", "")
         order_by = parser_args.get("orderBy", "")
+        year_from = parser_args.get("yearFrom")
+        year_to = parser_args.get("yearTo")
 
         movies = Movie.query
 
@@ -94,6 +98,12 @@ class MovieListApi(Resource):
                     return {"Error": "Wrong Genre name"}, 404
             if genre:
                 movies = movies.filter(Movie.genres.contains(genre))
+
+        # Date from to
+        if year_from:
+            movies = movies.filter(Movie.released >= f"{year_from}-01-01")
+        if year_to:
+            movies = movies.filter(Movie.released <= f"{year_to}-12-31")
 
         # search
         if search_query:
