@@ -5,6 +5,7 @@ from flask_login import login_required, current_user
 from flask_restx import Resource, fields
 from flask_restx.reqparse import RequestParser
 from marshmallow import ValidationError
+from sqlalchemy import func
 
 from app.api import api
 from app.models import Movie, Country, Genre, Director
@@ -22,17 +23,16 @@ movie_fields = api.model(
         "genres": fields.List(fields.String),
         "directors": fields.List(fields.String),
         "country_name": fields.String,
-        "country_short": fields.String,
+        "country_short": fields.String(max_length=2, min_length=2),
     },
 )
 
-pagination_parser = RequestParser()
-pagination_parser.add_argument(
+parser = RequestParser()
+parser.add_argument(
     "pageNumber", type=int, required=False, default=1, help="Page number"
 )
-pagination_parser.add_argument(
-    "pageSize", type=int, required=False, default=10, help="Page size"
-)
+parser.add_argument("pageSize", type=int, required=False, default=10, help="Page size")
+parser.add_argument("searchQuery", type=str, required=False, help="Search query")
 
 
 class MovieListApi(Resource):
@@ -40,16 +40,24 @@ class MovieListApi(Resource):
 
     movie_schema = MovieSchema()
 
-    @api.expect(pagination_parser)
+    @api.expect(parser)
     def get(self):
         """Output a list movies"""
-        p_args = pagination_parser.parse_args()
+        parser_args = parser.parse_args()
 
-        page = p_args.get("pageNumber")
-        per_page = p_args.get("pageSize")
+        page = parser_args.get("pageNumber", 1)
+        per_page = parser_args.get("pageSize", 10)
+        search_query = parser_args.get("searchQuery", "")
 
-        movies = Movie.query.paginate(page, per_page, error_out=False).items
-        return self.movie_schema.dump(movies, many=True), 200
+        movies = Movie.query
+        if search_query:
+            movies = movies.filter(
+                func.lower(Movie.name).contains(search_query.lower())
+            )
+
+        movies = movies.paginate(page, per_page, error_out=False)
+
+        return self.movie_schema.dump(movies.items, many=True), 200
 
     @login_required
     @api.expect(movie_fields, validate=True)
@@ -141,15 +149,3 @@ class MovieApi(Resource):
             return {"Success": "Deleted successfully"}, 200
         else:
             return current_app.login_manager.unauthorized()
-
-
-class MovieSearchApi(Resource):
-    """Search Movie Api"""
-
-    movie_schema = MovieSchema()
-
-    def get(self, target):
-        """Output matched movies"""
-
-        movies = Movie.search(target)
-        return self.movie_schema.dump(movies, many=True), 200

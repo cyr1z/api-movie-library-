@@ -155,6 +155,7 @@ class Country(db.Model):
 
     @classmethod
     def get_or_create(cls, name, short):
+        short = short.upper().strip()
         country = Country.find_by_short(short)
         if not country:
             country = Country(name=name, short=short)
