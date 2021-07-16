@@ -38,6 +38,9 @@ parser.add_argument("directorId", type=int, required=False, help="Director ID")
 parser.add_argument("genreName", type=str, required=False, help="Genre name")
 parser.add_argument("genreId", type=int, required=False, help="Genre ID")
 
+ORDER_CHOICES = ("date", "dateDesc", "rate", "rateDesc")
+parser.add_argument("orderBy", choices=ORDER_CHOICES, help="Bad order by choice")
+
 
 class MovieListApi(Resource):
     """Movie List Api"""
@@ -56,6 +59,7 @@ class MovieListApi(Resource):
         director_id = parser_args.get("directorId", "")
         genre_name = parser_args.get("genreName", "")
         genre_id = parser_args.get("genreId", "")
+        order_by = parser_args.get("orderBy", "")
 
         movies = Movie.query
 
@@ -96,6 +100,17 @@ class MovieListApi(Resource):
             movies = movies.filter(
                 func.lower(Movie.name).contains(search_query.lower())
             )
+
+        # order by
+        if order_by and order_by in ORDER_CHOICES:
+            if order_by == "date":
+                movies = movies.order_by(Movie.released)
+            elif order_by == "dateDesc":
+                movies = movies.order_by(Movie.released.desc())
+            elif order_by == "rate":
+                movies = movies.order_by(Movie.rate)
+            elif order_by == "rateDesc":
+                movies = movies.order_by(Movie.rate.desc())
 
         # pagination
         movies = movies.paginate(page, per_page, error_out=False)
