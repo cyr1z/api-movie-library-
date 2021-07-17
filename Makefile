@@ -47,7 +47,7 @@ dev-stop: ## Stop and remove a running container
 logs: ## view logs
 	docker logs $(APP_NAME)
 
-log-tail: ## tail logs
+log-tail: ## tail log
 	docker exec -i $(APP_NAME) tail -f $(LOG_PATH)
 
 clean: ## Cleaning up old container images and cache files
