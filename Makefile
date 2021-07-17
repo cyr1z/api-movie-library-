@@ -28,11 +28,11 @@ build-nc: ## Build the container without caching
 up: ## Up container from registry image
 	docker-compose -f docker-compose.yml up -d
 
-dev-up: ## Run container on port configured in `.env`
+dev-up: ## Run container with docker-compose.dev.yml
 	black .
 	docker-compose -f docker-compose.dev.yml  up --build
 
-run: ##  Run container on port configured in `.env` with -d (background mode)
+run: ## Run container docker run -d
 	docker run -d -t --rm  --env-file=.env  --name="$(APP_NAME)" $(APP_NAME)
 
 rm: ## Stop and remove a running container
@@ -74,10 +74,10 @@ test-dev: ## Run tests with covarege
 kill: ## Kill a running container
 	docker kill $(APP_NAME)
 
-pip-freeze: ## freezing dependencies
-	pip freeze > requirements.txt
+#pip-freeze: ## freezing dependencies
+#	pip freeze > requirements.txt
 
-release: build-nc publish ## Make a release by building and publishing the `{version}` and `latest` tagged containers to registry.
+release: build-nc publish ## Make a release by building and publishing the `{version}` and `latest` tagged containers to registry
 
 # Docker publish
 publish: repo-login publish-latest publish-version ## Publish the `{version}` and `latest` tagged containers to registry.
