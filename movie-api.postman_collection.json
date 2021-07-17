@@ -1,0 +1,170 @@
+{
+  "description": "A simple movie library API",
+  "folders": [
+    {
+      "collectionId": "30822c24-e106-5119-b3f0-d9e1929b9cb9",
+      "description": "Default namespace",
+      "id": "b10622d6-f6d7-53c0-b2a4-5cca619ac28d",
+      "name": "default",
+      "order": [
+        "b833d2dc-da8b-5dc3-9346-35bb12186f04",
+        "19ae5a88-e0a7-561a-9bdf-8831cdf749cd",
+        "3df92f0f-d41e-5b99-b9be-89a3e305e3c9",
+        "a4d435b6-31b8-5a32-ae31-db28b57be3a0",
+        "b1c19e18-fa11-59a4-935c-e1847ace300f",
+        "8cec0847-d70f-5bd2-8c2f-57f2d2c3dfbf",
+        "b91b13b4-fb15-5f9c-bd87-2df465daa879",
+        "6d138cf6-f0b3-5005-b74c-e0b035dcfe14",
+        "521ec7fe-cdf7-5ac9-a5e5-f1d4974c5ae1",
+        "101ffb24-d8c2-5012-ab41-7b1c91cfc0b7"
+      ]
+    }
+  ],
+  "id": "30822c24-e106-5119-b3f0-d9e1929b9cb9",
+  "name": "API Movie Library 1.0",
+  "order": [
+    "756df109-f1a2-59b5-843b-6337a40e7de2"
+  ],
+  "requests": [
+    {
+      "collectionId": "30822c24-e106-5119-b3f0-d9e1929b9cb9",
+      "description": "The API Swagger specifications as JSON",
+      "headers": "",
+      "id": "756df109-f1a2-59b5-843b-6337a40e7de2",
+      "method": "GET",
+      "name": "Swagger specifications",
+      "time": 1626544315,
+      "url": "http://api-video-lib.zolotarev.pp.ua/swagger.json"
+    },
+    {
+      "collectionId": "30822c24-e106-5119-b3f0-d9e1929b9cb9",
+      "description": "Output a list, or a single director",
+      "folder": "b10622d6-f6d7-53c0-b2a4-5cca619ac28d",
+      "headers": "",
+      "id": "b833d2dc-da8b-5dc3-9346-35bb12186f04",
+      "method": "GET",
+      "name": "get_director_list_api",
+      "pathVariables": {},
+      "time": 1626544315,
+      "url": "http://api-video-lib.zolotarev.pp.ua/directors"
+    },
+    {
+      "collectionId": "30822c24-e106-5119-b3f0-d9e1929b9cb9",
+      "description": "Output a list of directors",
+      "folder": "b10622d6-f6d7-53c0-b2a4-5cca619ac28d",
+      "headers": "",
+      "id": "19ae5a88-e0a7-561a-9bdf-8831cdf749cd",
+      "method": "GET",
+      "name": "get_director_api",
+      "pathVariables": {
+        "uuid": ""
+      },
+      "time": 1626544315,
+      "url": "http://api-video-lib.zolotarev.pp.ua/directors/:uuid"
+    },
+    {
+      "collectionId": "30822c24-e106-5119-b3f0-d9e1929b9cb9",
+      "description": "Deleting a director",
+      "folder": "b10622d6-f6d7-53c0-b2a4-5cca619ac28d",
+      "headers": "Content-Type:application/json",
+      "id": "3df92f0f-d41e-5b99-b9be-89a3e305e3c9",
+      "method": "DELETE",
+      "name": "delete_director_api",
+      "pathVariables": {
+        "uuid": ""
+      },
+      "time": 1626544315,
+      "url": "http://api-video-lib.zolotarev.pp.ua/directors/:uuid"
+    },
+    {
+      "collectionId": "30822c24-e106-5119-b3f0-d9e1929b9cb9",
+      "description": "user login",
+      "folder": "b10622d6-f6d7-53c0-b2a4-5cca619ac28d",
+      "headers": "Content-Type:application/json",
+      "id": "a4d435b6-31b8-5a32-ae31-db28b57be3a0",
+      "method": "POST",
+      "name": "post_login",
+      "pathVariables": {},
+      "time": 1626544315,
+      "url": "http://api-video-lib.zolotarev.pp.ua/login"
+    },
+    {
+      "collectionId": "30822c24-e106-5119-b3f0-d9e1929b9cb9",
+      "description": "user logout",
+      "folder": "b10622d6-f6d7-53c0-b2a4-5cca619ac28d",
+      "headers": "Content-Type:application/json",
+      "id": "b1c19e18-fa11-59a4-935c-e1847ace300f",
+      "method": "POST",
+      "name": "post_logout",
+      "time": 1626544315,
+      "url": "http://api-video-lib.zolotarev.pp.ua/logout"
+    },
+    {
+      "collectionId": "30822c24-e106-5119-b3f0-d9e1929b9cb9",
+      "description": "Output a list movies",
+      "folder": "b10622d6-f6d7-53c0-b2a4-5cca619ac28d",
+      "headers": "",
+      "id": "8cec0847-d70f-5bd2-8c2f-57f2d2c3dfbf",
+      "method": "GET",
+      "name": "get_movie_list_api",
+      "pathVariables": {},
+      "time": 1626544315,
+      "url": "http://api-video-lib.zolotarev.pp.ua/movies"
+    },
+    {
+      "collectionId": "30822c24-e106-5119-b3f0-d9e1929b9cb9",
+      "description": "Adding a movie",
+      "folder": "b10622d6-f6d7-53c0-b2a4-5cca619ac28d",
+      "headers": "Content-Type:application/json",
+      "id": "b91b13b4-fb15-5f9c-bd87-2df465daa879",
+      "method": "POST",
+      "name": "post_movie_list_api",
+      "pathVariables": {},
+      "time": 1626544315,
+      "url": "http://api-video-lib.zolotarev.pp.ua/movies"
+    },
+    {
+      "collectionId": "30822c24-e106-5119-b3f0-d9e1929b9cb9",
+      "description": "Output a single movie",
+      "folder": "b10622d6-f6d7-53c0-b2a4-5cca619ac28d",
+      "headers": "",
+      "id": "6d138cf6-f0b3-5005-b74c-e0b035dcfe14",
+      "method": "GET",
+      "name": "get_movie_api",
+      "pathVariables": {
+        "uuid": ""
+      },
+      "time": 1626544315,
+      "url": "http://api-video-lib.zolotarev.pp.ua/movies/:uuid"
+    },
+    {
+      "collectionId": "30822c24-e106-5119-b3f0-d9e1929b9cb9",
+      "description": "Delete a movie",
+      "folder": "b10622d6-f6d7-53c0-b2a4-5cca619ac28d",
+      "headers": "Content-Type:application/json",
+      "id": "521ec7fe-cdf7-5ac9-a5e5-f1d4974c5ae1",
+      "method": "DELETE",
+      "name": "delete_movie_api",
+      "pathVariables": {
+        "uuid": ""
+      },
+      "time": 1626544315,
+      "url": "http://api-video-lib.zolotarev.pp.ua/movies/:uuid"
+    },
+    {
+      "collectionId": "30822c24-e106-5119-b3f0-d9e1929b9cb9",
+      "description": "Changing a movie",
+      "folder": "b10622d6-f6d7-53c0-b2a4-5cca619ac28d",
+      "headers": "Content-Type:application/json",
+      "id": "101ffb24-d8c2-5012-ab41-7b1c91cfc0b7",
+      "method": "PUT",
+      "name": "put_movie_api",
+      "pathVariables": {
+        "uuid": ""
+      },
+      "time": 1626544315,
+      "url": "http://api-video-lib.zolotarev.pp.ua/movies/:uuid"
+    }
+  ],
+  "timestamp": 1626544315
+}
