@@ -47,6 +47,9 @@ dev-stop: ## Stop and remove a running container
 logs: ## view logs
 	docker logs $(APP_NAME)
 
+log-tail: ## tail logs
+	docker exec -i $(APP_NAME) tail -f $(LOG_PATH)
+
 clean: ## Cleaning up old container images and cache files
 	rm -rf `find . -name __pycache__`
 	rm -f `find . -type f -name '*.py[co]' `
