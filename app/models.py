@@ -155,6 +155,7 @@ class Country(db.Model):
 
     @classmethod
     def get_or_create(cls, name, short):
+        short = short.upper().strip()
         country = Country.find_by_short(short)
         if not country:
             country = Country(name=name, short=short)
@@ -193,13 +194,11 @@ class Movie(db.Model):
     def find_by_name(cls, name):
         return Movie.query.filter(Movie.name == name).first()
 
-    @classmethod
-    def search(cls, target):
-        return (
-            Movie.query.filter(Movie.name.contains(target)).order_by(Movie.rate).all()
-        )
-
     def save(self):
         db.session.add(self)
         db.session.commit()
         return self
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
