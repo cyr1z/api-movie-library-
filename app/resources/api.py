@@ -21,7 +21,10 @@ NAME_TO_LEVEL = {
 
 
 def name_to_log_level(level_name):
-    return NAME_TO_LEVEL[level_name]
+    if level_name:
+        return NAME_TO_LEVEL[level_name]
+    else:
+        return NAME_TO_LEVEL["INFO"]
 
 
 logging.basicConfig(level=name_to_log_level(LOG_LEVEL))
