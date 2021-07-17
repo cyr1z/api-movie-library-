@@ -1,3 +1,5 @@
+from sqlalchemy import func
+
 from . import db
 from .through_tables import MovieGenre, MovieDirector
 
@@ -32,6 +34,14 @@ class Movie(db.Model):
     @classmethod
     def find_by_name(cls, name):
         return Movie.query.filter(Movie.name == name).first()
+
+    @classmethod
+    def min_year(cls):
+        return db.session.query(func.min(Movie.released)).scalar().year
+
+    @classmethod
+    def max_year(cls):
+        return db.session.query(func.max(Movie.released)).scalar().year
 
     def save(self):
         db.session.add(self)

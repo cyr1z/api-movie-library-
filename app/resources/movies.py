@@ -41,6 +41,7 @@ parser.add_argument("directorName", type=str, required=False, help="Director nam
 parser.add_argument("directorId", type=int, required=False, help="Director ID")
 parser.add_argument("genreName", type=str, required=False, help="Genre name")
 parser.add_argument("genreId", type=int, required=False, help="Genre ID")
+
 parser.add_argument("yearFrom", type=int, required=False, help="from year")
 parser.add_argument("yearTo", type=int, required=False, help="to year")
 
@@ -120,10 +121,34 @@ class MovieListApi(Resource):
                 movies = movies.filter(Movie.genres.contains(genre))
 
         # Date from to
+
         if year_from:
-            movies = movies.filter(Movie.released >= f"{year_from}-01-01")
+            if Movie.min_year() <= year_from <= Movie.max_year():
+                movies = movies.filter(Movie.released >= f"{year_from}-01-01")
+            else:
+                api.logger.error(
+                    f"[{datetime.now()}], movies, get, {parser_args}, "
+                    f'Error: "Wrong Year from"'
+                )
+                return {
+                    "Error": f"Wrong Year from. Year must be between"
+                    f" {Movie.min_year()} "
+                    f"and {Movie.max_year()}"
+                }, 404
+
         if year_to:
-            movies = movies.filter(Movie.released <= f"{year_to}-12-31")
+            if Movie.min_year() <= year_to <= Movie.max_year():
+                movies = movies.filter(Movie.released <= f"{year_to}-12-31")
+            else:
+                api.logger.error(
+                    f"[{datetime.now()}], movies, get, {parser_args}, "
+                    f'Error: "Wrong Year to"'
+                )
+                return {
+                    "Error": f"Wrong Year to. Year must be between "
+                    f"{Movie.min_year()} "
+                    f"and {Movie.max_year()}"
+                }, 404
 
         # search
         if search_query:
