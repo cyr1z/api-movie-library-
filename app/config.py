@@ -6,6 +6,8 @@ POSTGRES_DB = getenv("POSTGRES_DB")
 APP_NAME = getenv("APP_NAME")
 POSTGRES_USER = getenv("POSTGRES_USER")
 POSTGRES_PASSWORD = getenv("POSTGRES_PASSWORD")
+LOG_PATH = getenv("LOG_PATH")
+LOG_LEVEL = getenv("LOG_LEVEL")
 
 
 class Config:

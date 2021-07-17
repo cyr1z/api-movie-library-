@@ -2,15 +2,15 @@
 
 from flask import Flask
 
-from .resources.api import api
+from .config import Config
 from .login import login_manager
 from .models import db
-from .config import Config
 from .models.country import Country
 from .models.director import Director
 from .models.genre import Genre
 from .models.movie import Movie
 from .models.user import User
+from .resources.api import api
 
 
 def create_app():
