@@ -1,6 +1,6 @@
 """ Api routes """
 
-from app.app import api
+from app.resources.api import api
 from app.resources.directors import DirectorListApi, DirectorApi
 from app.resources.login import Login, Logout
 from app.resources.movies import MovieListApi, MovieApi

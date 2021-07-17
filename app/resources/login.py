@@ -6,8 +6,8 @@ from flask import request, jsonify
 from flask_login import login_user, logout_user
 from flask_restx import Namespace, Resource, fields
 
-from app.api import api
-from app.models import User
+from app.resources.api import api
+from app.models.user import User
 
 auth_namespace = Namespace("auth")
 

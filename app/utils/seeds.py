@@ -6,9 +6,14 @@ import json
 
 from faker import Faker
 
-from app.models import Country, Director, Genre, User, Movie
 
 # Country
+from app.models.country import Country
+from app.models.director import Director
+from app.models.genre import Genre
+from app.models.movie import Movie
+from app.models.user import User
+
 with open("/data/countries.json") as json_file:
     data = json.load(json_file)
     for item in data["data"]:

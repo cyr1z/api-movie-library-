@@ -7,9 +7,9 @@ from flask_login import login_required
 from flask_restx import Resource, fields, Namespace
 from flask_restx.reqparse import RequestParser
 
-from app.api import api
-from app.app import db
-from app.models import Director
+from app.resources.api import api
+from app.models import db
+from app.models.director import Director
 from app.schemas.directors import DirectorSchema
 from app.utils.admin_required import admin_required
 
@@ -48,19 +48,6 @@ class DirectorListApi(Resource):
         directors = Director.query.paginate(page, per_page, error_out=False).items
         return self.director_schema.dump(directors, many=True), 200
 
-    # @login_required
-    # def post(self):
-    #     """Adding a director"""
-    #
-    #     try:
-    #         director = self.director_schema.load(request.json, session=db.session)
-    #     except ValidationError as error:
-    #         return {"Error": str(error)}, 400
-    #
-    #     db.session.add(director)
-    #     db.session.commit()
-    #     return self.director_schema.dump(director), 201
-
 
 class DirectorApi(Resource):
     """Directors List Api"""
@@ -75,26 +62,6 @@ class DirectorApi(Resource):
             return {"Error": "Object was not found"}, 404
 
         return self.director_schema.dump(director), 200
-
-    # @login_required
-    # @admin_required
-    # def put(self, uuid: int):
-    #     """Changing a director"""
-    #
-    #     director = db.session.query(Director).filter_by(id=uuid).first()
-    #     if not director:
-    #         return {"Error": "Object was not found"}, 404
-    #
-    #     try:
-    #         director = self.director_schema.load(
-    #             request.json, instance=director, session=db.session
-    #         )
-    #     except ValidationError as error:
-    #         return {"Error": str(error)}, 400
-    #
-    #     db.session.add(director)
-    #     db.session.commit()
-    #     return self.director_schema.dump(director), 200
 
     @staticmethod
     @login_required

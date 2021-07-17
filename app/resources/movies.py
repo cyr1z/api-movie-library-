@@ -7,8 +7,11 @@ from flask_restx.reqparse import RequestParser
 from marshmallow import ValidationError
 from sqlalchemy import func
 
-from app.api import api
-from app.models import Movie, Country, Genre, Director
+from app.resources.api import api
+from app.models.country import Country
+from app.models.director import Director
+from app.models.genre import Genre
+from app.models.movie import Movie
 from app.schemas.movies import MovieSchema
 
 movie_fields = api.model(

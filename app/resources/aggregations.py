@@ -1,7 +1,8 @@
 from flask_restx import Resource
 from sqlalchemy import func
 
-from app.models import Movie, db
+from app.models import db
+from app.models.movie import Movie
 
 
 class AggregationsApi(Resource):

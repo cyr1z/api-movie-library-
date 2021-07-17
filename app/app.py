@@ -2,10 +2,15 @@
 
 from flask import Flask
 
-from .api import api
+from .resources.api import api
 from .login import login_manager
-from .models import Country, User, Movie, Genre, Director, db
+from .models import db
 from .config import Config
+from .models.country import Country
+from .models.director import Director
+from .models.genre import Genre
+from .models.movie import Movie
+from .models.user import User
 
 
 def create_app():
@@ -29,7 +34,7 @@ def create_app():
 
 app = create_app()
 
-from . import routes
+from app.routes import *
 
 
 @app.shell_context_processor
