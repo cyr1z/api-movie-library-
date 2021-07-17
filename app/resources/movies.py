@@ -77,7 +77,7 @@ class MovieListApi(Resource):
             if director_id:
                 director = Director.query.filter(Director.id == director_id).first()
                 if not director:
-                    api.logger.info(
+                    api.logger.error(
                         f"[{datetime.now()}], movies, get, {parser_args}, "
                         f'Error: "Wrong Director ID"'
                     )
@@ -87,7 +87,7 @@ class MovieListApi(Resource):
                     func.lower(Director.name).contains(director_name.lower())
                 ).first()
                 if not director:
-                    api.logger.info(
+                    api.logger.error(
                         f"[{datetime.now()}], movies, get, {parser_args}, "
                         f'Error: "Wrong Director name"'
                     )
@@ -101,7 +101,7 @@ class MovieListApi(Resource):
             if genre_id:
                 genre = Genre.query.filter(Genre.id == genre_id).first()
                 if not genre:
-                    api.logger.info(
+                    api.logger.error(
                         f"[{datetime.now()}], movies, get, {parser_args}, "
                         f'Error: "Wrong Genre ID"'
                     )
@@ -111,7 +111,7 @@ class MovieListApi(Resource):
                     func.lower(Genre.name).contains(genre_name.lower())
                 ).first()
                 if not genre:
-                    api.logger.info(
+                    api.logger.error(
                         f"[{datetime.now()}], movies, get, {parser_args}, "
                         f'Error: "Wrong Genre name"'
                     )
@@ -173,7 +173,7 @@ class MovieListApi(Resource):
         try:
             movie.save()
         except ValidationError as error:
-            api.logger.info(
+            api.logger.error(
                 f"[{datetime.now()}], movies, post, {data}, Error: {str(error)}, "
                 f'"user": {current_user.username}'
             )
@@ -196,7 +196,7 @@ class MovieApi(Resource):
 
         movie = Movie.query.filter_by(id=uuid).first()
         if not movie:
-            api.logger.info(
+            api.logger.error(
                 f'[{datetime.now()}], movies, get, "id": {uuid}, '
                 f'Error: "Object was not found'
             )
@@ -213,14 +213,14 @@ class MovieApi(Resource):
         data = request.json
 
         if not movie:
-            api.logger.info(
+            api.logger.error(
                 f'[{datetime.now()}], movies, put, "id": {uuid}, '
                 f'Error: "Object was not found'
             )
             return {"Error": "Object was not found"}, 404
 
         if not current_user.is_admin and current_user != movie.user:
-            api.logger.info(
+            api.logger.error(
                 f'[{datetime.now()}], movies, put, "id": {uuid}, '
                 f'Error: "NOT AUTHORISED", "user": {current_user.username}'
             )
@@ -242,7 +242,7 @@ class MovieApi(Resource):
         try:
             movie.save()
         except ValidationError as error:
-            api.logger.info(
+            api.logger.error(
                 f"[{datetime.now()}], movies, put, {data}, Error: {str(error)}, "
                 f'"user": {current_user.username}'
             )
@@ -273,7 +273,7 @@ class MovieApi(Resource):
             )
             return {"Success": "Deleted successfully"}, 200
         else:
-            api.logger.info(
+            api.logger.error(
                 f'[{datetime.now()}], movies, delete, "id": {uuid}, '
                 f'Error: "NOT AUTHORISED", "user": {current_user.username}'
             )

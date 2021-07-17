@@ -56,7 +56,7 @@ class DirectorApi(Resource):
 
         director = db.session.query(Director).filter_by(id=uuid).first()
         if not director:
-            api.logger.info(
+            api.logger.error(
                 f'[{datetime.now()}], directors, get, "id": {uuid},'
                 f' Error: "Object was not found"'
             )
@@ -72,7 +72,7 @@ class DirectorApi(Resource):
 
         director = db.session.query(Director).filter_by(id=uuid).first()
         if not director:
-            api.logger.info(
+            api.logger.error(
                 f'[{datetime.now()}], directors, delete, "id": {uuid}, '
                 f'Error: "Object was not found"'
             )

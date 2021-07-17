@@ -46,7 +46,7 @@ class Login(Resource):
             result = jsonify(
                 {"status": 401, "reason": "Incorrect username or password"}
             )
-            api.logger.info(
+            api.logger.error(
                 f'[{datetime.now()}], login, post, "user": {post_data.get("username")}, '
                 f'Error: "Incorrect username or password"'
             )
@@ -72,5 +72,5 @@ class Logout(Resource):
             return jsonify({"result": 200, "data": {"message": "logout success"}})
 
         except AttributeError as error:
-            api.logger.info(f"[{datetime.now()}], logout, post, Error: {str(error)}")
+            api.logger.error(f"[{datetime.now()}], logout, post, Error: {str(error)}")
             jsonify({"result": 401, "data": {"Error": "user not logged"}})
