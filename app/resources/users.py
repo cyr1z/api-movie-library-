@@ -5,7 +5,8 @@ from flask_restx import Resource
 from marshmallow import ValidationError
 
 
-from app.models import User, db
+from app.models import db
+from app.models.user import User
 from app.schemas.users import UserSchema
 
 

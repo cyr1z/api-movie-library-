@@ -2,7 +2,7 @@
 
 from flask_login import LoginManager
 
-from app.models import User
+from app.models.user import User
 
 login_manager = LoginManager()
 login_manager.login_message_category = "info"

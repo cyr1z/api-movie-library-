@@ -7,8 +7,9 @@ from flask_login import login_required
 from flask_restx import Resource, fields, Namespace
 from marshmallow import ValidationError
 
-from app.api import api
-from app.models import Country, db
+from app.resources.api import api
+from app.models import db
+from app.models.country import Country
 from app.schemas.countries import CountrySchema
 
 country_fields = api.model(

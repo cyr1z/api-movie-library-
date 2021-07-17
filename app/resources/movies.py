@@ -1,4 +1,5 @@
 """ Movie List Api """
+from datetime import datetime
 
 from flask import request, current_app
 from flask_login import login_required, current_user
@@ -7,8 +8,11 @@ from flask_restx.reqparse import RequestParser
 from marshmallow import ValidationError
 from sqlalchemy import func
 
-from app.api import api
-from app.models import Movie, Country, Genre, Director
+from app.models.country import Country
+from app.models.director import Director
+from app.models.genre import Genre
+from app.models.movie import Movie
+from app.resources.api import api
 from app.schemas.movies import MovieSchema
 
 movie_fields = api.model(
@@ -37,6 +41,7 @@ parser.add_argument("directorName", type=str, required=False, help="Director nam
 parser.add_argument("directorId", type=int, required=False, help="Director ID")
 parser.add_argument("genreName", type=str, required=False, help="Genre name")
 parser.add_argument("genreId", type=int, required=False, help="Genre ID")
+
 parser.add_argument("yearFrom", type=int, required=False, help="from year")
 parser.add_argument("yearTo", type=int, required=False, help="to year")
 
@@ -73,12 +78,20 @@ class MovieListApi(Resource):
             if director_id:
                 director = Director.query.filter(Director.id == director_id).first()
                 if not director:
+                    api.logger.error(
+                        f"[{datetime.now()}], movies, get, {parser_args}, "
+                        f'Error: "Wrong Director ID"'
+                    )
                     return {"Error": "Wrong Director ID"}, 404
             elif director_name:
                 director = Director.query.filter(
                     func.lower(Director.name).contains(director_name.lower())
                 ).first()
                 if not director:
+                    api.logger.error(
+                        f"[{datetime.now()}], movies, get, {parser_args}, "
+                        f'Error: "Wrong Director name"'
+                    )
                     return {"Error": "Wrong Director name"}, 404
             if director:
                 movies = movies.filter(Movie.directors.contains(director))
@@ -89,21 +102,53 @@ class MovieListApi(Resource):
             if genre_id:
                 genre = Genre.query.filter(Genre.id == genre_id).first()
                 if not genre:
+                    api.logger.error(
+                        f"[{datetime.now()}], movies, get, {parser_args}, "
+                        f'Error: "Wrong Genre ID"'
+                    )
                     return {"Error": "Wrong Genre ID"}, 404
             elif genre_name:
                 genre = Genre.query.filter(
                     func.lower(Genre.name).contains(genre_name.lower())
                 ).first()
                 if not genre:
+                    api.logger.error(
+                        f"[{datetime.now()}], movies, get, {parser_args}, "
+                        f'Error: "Wrong Genre name"'
+                    )
                     return {"Error": "Wrong Genre name"}, 404
             if genre:
                 movies = movies.filter(Movie.genres.contains(genre))
 
         # Date from to
+
         if year_from:
-            movies = movies.filter(Movie.released >= f"{year_from}-01-01")
+            if Movie.min_year() <= year_from <= Movie.max_year():
+                movies = movies.filter(Movie.released >= f"{year_from}-01-01")
+            else:
+                api.logger.error(
+                    f"[{datetime.now()}], movies, get, {parser_args}, "
+                    f'Error: "Wrong Year from"'
+                )
+                return {
+                    "Error": f"Wrong Year from. Year must be between"
+                    f" {Movie.min_year()} "
+                    f"and {Movie.max_year()}"
+                }, 404
+
         if year_to:
-            movies = movies.filter(Movie.released <= f"{year_to}-12-31")
+            if Movie.min_year() <= year_to <= Movie.max_year():
+                movies = movies.filter(Movie.released <= f"{year_to}-12-31")
+            else:
+                api.logger.error(
+                    f"[{datetime.now()}], movies, get, {parser_args}, "
+                    f'Error: "Wrong Year to"'
+                )
+                return {
+                    "Error": f"Wrong Year to. Year must be between "
+                    f"{Movie.min_year()} "
+                    f"and {Movie.max_year()}"
+                }, 404
 
         # search
         if search_query:
@@ -125,6 +170,7 @@ class MovieListApi(Resource):
         # pagination
         movies = movies.paginate(page, per_page, error_out=False)
 
+        api.logger.info(f"[{datetime.now()}], movies, get, {parser_args}, Success")
         return self.movie_schema.dump(movies.items, many=True), 200
 
     @login_required
@@ -152,8 +198,16 @@ class MovieListApi(Resource):
         try:
             movie.save()
         except ValidationError as error:
+            api.logger.error(
+                f"[{datetime.now()}], movies, post, {data}, Error: {str(error)}, "
+                f'"user": {current_user.username}'
+            )
             return {"Error": str(error)}, 400
 
+        api.logger.info(
+            f"[{datetime.now()}], movies, post, {data}, Success, "
+            f'"user": {current_user.username}'
+        )
         return self.movie_schema.dump(movie), 201
 
 
@@ -167,8 +221,12 @@ class MovieApi(Resource):
 
         movie = Movie.query.filter_by(id=uuid).first()
         if not movie:
+            api.logger.error(
+                f'[{datetime.now()}], movies, get, "id": {uuid}, '
+                f'Error: "Object was not found'
+            )
             return {"Error": "Object was not found"}, 404
-
+        api.logger.info(f'[{datetime.now()}], movies, get, "id": {uuid}, Success')
         return self.movie_schema.dump(movie), 200
 
     @login_required
@@ -180,9 +238,17 @@ class MovieApi(Resource):
         data = request.json
 
         if not movie:
+            api.logger.error(
+                f'[{datetime.now()}], movies, put, "id": {uuid}, '
+                f'Error: "Object was not found'
+            )
             return {"Error": "Object was not found"}, 404
 
         if not current_user.is_admin and current_user != movie.user:
+            api.logger.error(
+                f'[{datetime.now()}], movies, put, "id": {uuid}, '
+                f'Error: "NOT AUTHORISED", "user": {current_user.username}'
+            )
             return current_app.login_manager.unauthorized()
 
         movie.rate = data["rate"]
@@ -201,7 +267,15 @@ class MovieApi(Resource):
         try:
             movie.save()
         except ValidationError as error:
+            api.logger.error(
+                f"[{datetime.now()}], movies, put, {data}, Error: {str(error)}, "
+                f'"user": {current_user.username}'
+            )
             return {"Error": str(error)}, 400
+        api.logger.info(
+            f"[{datetime.now()}], movies, put, {data}, Success, "
+            f'"user": {current_user.username}'
+        )
         return self.movie_schema.dump(movie), 201
 
     @staticmethod
@@ -211,9 +285,21 @@ class MovieApi(Resource):
 
         movie = Movie.query.filter_by(id=uuid).first()
         if not movie:
+            api.logger.info(
+                f'[{datetime.now()}], movies, put, "id": {uuid}, '
+                f'Error: "Object was not found'
+            )
             return "", 404
         if current_user.is_admin or current_user == movie.user:
             movie.delete()
+            api.logger.info(
+                f'[{datetime.now()}], movies, delete, "id": {uuid},'
+                f' Deleted successfully, "user": {current_user.username}'
+            )
             return {"Success": "Deleted successfully"}, 200
         else:
+            api.logger.error(
+                f'[{datetime.now()}], movies, delete, "id": {uuid}, '
+                f'Error: "NOT AUTHORISED", "user": {current_user.username}'
+            )
             return current_app.login_manager.unauthorized()

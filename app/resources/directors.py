@@ -3,24 +3,19 @@
 Directors List Api
 
 """
+from datetime import datetime
+
 from flask_login import login_required
-from flask_restx import Resource, fields, Namespace
+from flask_restx import Resource, fields
 from flask_restx.reqparse import RequestParser
 
-from app.api import api
-from app.app import db
-from app.models import Director
+from app.models import db
+from app.models.director import Director
+from app.resources.api import api
 from app.schemas.directors import DirectorSchema
 from app.utils.admin_required import admin_required
 
-director_fields = api.model(
-    "Director",
-    {
-        "name": fields.String,
-    },
-)
-
-director_namespace = Namespace("director_namespace")
+director_fields = api.model("Director", {"name": fields.String})
 
 pagination_parser = RequestParser()
 pagination_parser.add_argument(
@@ -45,21 +40,10 @@ class DirectorListApi(Resource):
         page = p_args.get("pageNumber")
         per_page = p_args.get("pageSize")
 
+        api.logger.info(f"[{datetime.now()}], directors, get, {p_args}")
+
         directors = Director.query.paginate(page, per_page, error_out=False).items
         return self.director_schema.dump(directors, many=True), 200
-
-    # @login_required
-    # def post(self):
-    #     """Adding a director"""
-    #
-    #     try:
-    #         director = self.director_schema.load(request.json, session=db.session)
-    #     except ValidationError as error:
-    #         return {"Error": str(error)}, 400
-    #
-    #     db.session.add(director)
-    #     db.session.commit()
-    #     return self.director_schema.dump(director), 201
 
 
 class DirectorApi(Resource):
@@ -72,29 +56,13 @@ class DirectorApi(Resource):
 
         director = db.session.query(Director).filter_by(id=uuid).first()
         if not director:
+            api.logger.error(
+                f'[{datetime.now()}], directors, get, "id": {uuid},'
+                f' Error: "Object was not found"'
+            )
             return {"Error": "Object was not found"}, 404
-
+        api.logger.info(f'[{datetime.now()}], directors, get, "id": {uuid}, Success')
         return self.director_schema.dump(director), 200
-
-    # @login_required
-    # @admin_required
-    # def put(self, uuid: int):
-    #     """Changing a director"""
-    #
-    #     director = db.session.query(Director).filter_by(id=uuid).first()
-    #     if not director:
-    #         return {"Error": "Object was not found"}, 404
-    #
-    #     try:
-    #         director = self.director_schema.load(
-    #             request.json, instance=director, session=db.session
-    #         )
-    #     except ValidationError as error:
-    #         return {"Error": str(error)}, 400
-    #
-    #     db.session.add(director)
-    #     db.session.commit()
-    #     return self.director_schema.dump(director), 200
 
     @staticmethod
     @login_required
@@ -104,8 +72,16 @@ class DirectorApi(Resource):
 
         director = db.session.query(Director).filter_by(id=uuid).first()
         if not director:
+            api.logger.error(
+                f'[{datetime.now()}], directors, delete, "id": {uuid}, '
+                f'Error: "Object was not found"'
+            )
             return "", 404
 
         db.session.delete(director)
         db.session.commit()
+        api.logger.info(
+            f'[{datetime.now()}], directors, delete, "id": {uuid},'
+            f" Deleted successfully"
+        )
         return {"Success": "Deleted successfully"}, 200

@@ -6,7 +6,7 @@ Movie scheme
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, auto_field
 from marshmallow_sqlalchemy.fields import Nested
 
-from app.models import Movie
+from app.models.movie import Movie
 from app.schemas.countries import CountrySchema
 from app.schemas.directors import DirectorSchema
 from app.schemas.genres import GenreSchema

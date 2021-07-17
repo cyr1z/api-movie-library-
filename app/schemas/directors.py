@@ -1,9 +1,6 @@
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, auto_field
-from marshmallow_sqlalchemy.fields import Nested
 
-from app.models import Director
-
-# from app.schemas.movies import MovieSchema
+from app.models.director import Director
 
 
 class DirectorSchema(SQLAlchemyAutoSchema):
@@ -12,5 +9,4 @@ class DirectorSchema(SQLAlchemyAutoSchema):
         load_instance = True
         include_fk = True
 
-    # movies = Nested("MovieSchema", many=True, exclude=("directors",))
     id = auto_field()
