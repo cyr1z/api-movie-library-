@@ -7,20 +7,22 @@ from app.config import LOG_PATH, LOG_LEVEL
 
 api = Api()
 
+
 # configure logger
-NAME_TO_LEVEL = {
-    "CRITICAL": logging.CRITICAL,
-    "FATAL": logging.FATAL,
-    "ERROR": logging.ERROR,
-    "WARN": logging.WARNING,
-    "WARNING": logging.WARNING,
-    "INFO": logging.INFO,
-    "DEBUG": logging.DEBUG,
-    "NOTSET": logging.NOTSET,
-}
 
 
 def name_to_log_level(level_name):
+    NAME_TO_LEVEL = {
+        "CRITICAL": logging.CRITICAL,
+        "FATAL": logging.FATAL,
+        "ERROR": logging.ERROR,
+        "WARN": logging.WARNING,
+        "WARNING": logging.WARNING,
+        "INFO": logging.INFO,
+        "DEBUG": logging.DEBUG,
+        "NOTSET": logging.NOTSET,
+    }
+
     if level_name:
         return NAME_TO_LEVEL[level_name]
     else:
