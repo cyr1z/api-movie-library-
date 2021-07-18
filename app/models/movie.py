@@ -1,3 +1,5 @@
+""" Movie model """
+
 from sqlalchemy import func
 
 from . import db
@@ -5,7 +7,7 @@ from .through_tables import MovieGenre, MovieDirector
 
 
 class Movie(db.Model):
-    """Movie model"""
+    """ Movie model """
 
     __tablename__ = "Movie"
 
@@ -33,21 +35,26 @@ class Movie(db.Model):
 
     @classmethod
     def find_by_name(cls, name):
+        """ find movie by name """
         return Movie.query.filter(Movie.name == name).first()
 
     @classmethod
     def min_year(cls):
+        """ minimum year """
         return db.session.query(func.min(Movie.released)).scalar().year
 
     @classmethod
     def max_year(cls):
+        """ maximum tear """
         return db.session.query(func.max(Movie.released)).scalar().year
 
     def save(self):
+        """ save """
         db.session.add(self)
         db.session.commit()
         return self
 
     def delete(self):
+        """ delete """
         db.session.delete(self)
         db.session.commit()

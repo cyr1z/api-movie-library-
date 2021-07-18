@@ -291,6 +291,7 @@ class MovieApi(Resource):
                 f'Error: "Object was not found'
             )
             return "", 404
+
         if current_user.is_admin or current_user == movie.user:
             movie.delete()
             api.logger.info(

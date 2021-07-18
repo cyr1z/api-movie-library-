@@ -1,4 +1,5 @@
 """ Api module """
+
 import logging
 
 from flask_restx import Api
@@ -10,8 +11,8 @@ api = Api()
 
 # configure logger
 
-
-def name_to_log_level(level_name):
+def name_to_log_level(level_name: str):
+    """ get level log """
     NAME_TO_LEVEL = {
         "CRITICAL": logging.CRITICAL,
         "FATAL": logging.FATAL,

@@ -1,3 +1,5 @@
+""" Aggregations """
+
 from flask_restx import Resource
 from sqlalchemy import func
 
@@ -6,6 +8,7 @@ from app.models.movie import Movie
 
 
 class AggregationsApi(Resource):
+    """ aggregations """
     def get(self):
         movies_count = db.session.query(func.count(Movie.id)).scalar()
         max_rating = db.session.query(func.max(Movie.rate)).scalar()

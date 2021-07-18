@@ -1,3 +1,5 @@
+""" Through table for movie many to many relations """
+
 from . import db
 
 MovieGenre = db.Table(

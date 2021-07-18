@@ -1,3 +1,5 @@
+""" User model """
+
 from flask_login import UserMixin
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -25,14 +27,15 @@ class User(UserMixin, db.Model):
 
     @property
     def password(self):
-        """"""
         raise AttributeError("Password is not a readable attribute")
 
     @password.setter
-    def password(self, password):
+    def password(self, password: str):
+        """ password setter """
         self.password_hash = generate_password_hash(password)
 
-    def verify_password(self, password):
+    def verify_password(self, password: str):
+        """ verify password """
         return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
@@ -42,18 +45,22 @@ class User(UserMixin, db.Model):
         return f"{self.email}, {self.username} {self.first_name} {self.last_name}"
 
     @classmethod
-    def find_by_username(cls, username):
+    def find_by_username(cls, username: str):
+        """ find user by username """
         return User.query.filter(User.username == username).first()
 
     @classmethod
     def get_random(cls):
+        """ get random user """
         return User.query.order_by(func.random()).first()
 
     @classmethod
-    def find_by_email(cls, email):
+    def find_by_email(cls, email: str):
+        """ find user by email """
         return User.query.filter(User.email == email).first()
 
     def save(self):
+        """ save """
         db.session.add(self)
         db.session.commit()
         return self
