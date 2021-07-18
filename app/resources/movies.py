@@ -121,9 +121,10 @@ class MovieListApi(Resource):
                 movies = movies.filter(Movie.genres.contains(genre))
 
         # Date from to
-
+        min_year = Movie.min_year()
+        max_year = Movie.max_year()
         if year_from:
-            if Movie.min_year() <= year_from <= Movie.max_year():
+            if min_year <= year_from <= max_year:
                 movies = movies.filter(Movie.released >= f"{year_from}-01-01")
             else:
                 api.logger.error(
@@ -132,12 +133,12 @@ class MovieListApi(Resource):
                 )
                 return {
                     "Error": f"Wrong Year from. Year must be between"
-                    f" {Movie.min_year()} "
-                    f"and {Movie.max_year()}"
+                    f" {min_year} "
+                    f"and {max_year}"
                 }, 404
 
         if year_to:
-            if Movie.min_year() <= year_to <= Movie.max_year():
+            if min_year <= year_to <= max_year:
                 movies = movies.filter(Movie.released <= f"{year_to}-12-31")
             else:
                 api.logger.error(
@@ -146,8 +147,8 @@ class MovieListApi(Resource):
                 )
                 return {
                     "Error": f"Wrong Year to. Year must be between "
-                    f"{Movie.min_year()} "
-                    f"and {Movie.max_year()}"
+                    f"{min_year} "
+                    f"and {max_year}"
                 }, 404
 
         # search
