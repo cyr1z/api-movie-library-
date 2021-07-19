@@ -5,7 +5,8 @@ from app.models.user import User
 
 
 class UserSchema(SQLAlchemyAutoSchema):
-    """ Genre schema """
+    """Genre schema"""
+
     class Meta:
         model = User
         exclude = ["id", "is_admin"]

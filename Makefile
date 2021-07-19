@@ -63,13 +63,14 @@ pylint: ## Run Pylint linter
 	pylint app
 
 test: ## Run tests
-	docker exec $(APP_NAME) python -i -m pytest -q /tests/unit/ -p no:warnings
+	docker exec $(APP_NAME)  pytest -v -p  no:warnings  /tests/
+
 
 test-last-failed: ## Run last failed tests only
-	docker exec $(APP_NAME) python -m pytest -q /tests/unit/ --lf
+	docker exec $(APP_NAME) pytest -q /tests/ --lf -p  no:warnings
 
-test-dev: ## Run tests with covarege
-	python -m pytest -v --cov=src --cov-report term-missing ./tests/unit/ --cov ./src/app
+#test-dev: ## Run tests with covarege
+#	python -m pytest -v --cov=src --cov-report term-missing ./tests/unit/ --cov ./src/app
 
 kill: ## Kill a running container
 	docker kill $(APP_NAME)

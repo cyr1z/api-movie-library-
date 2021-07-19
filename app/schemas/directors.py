@@ -6,7 +6,8 @@ from app.models.director import Director
 
 
 class DirectorSchema(SQLAlchemyAutoSchema):
-    """ Director schema """
+    """Director schema"""
+
     class Meta:
         model = Director
         load_instance = True

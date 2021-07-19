@@ -16,11 +16,11 @@ class Country(db.Model):
 
     @classmethod
     def find_by_short(cls, short: str):
-        """ find country by short code """
+        """find country by short code"""
         return Country.query.filter(Country.short == short).first()
 
     def save(self):
-        """ save """
+        """save"""
         db.session.add(self)
         db.session.commit()
         return self

@@ -5,7 +5,8 @@ from app.models.genre import Genre
 
 
 class GenreSchema(SQLAlchemyAutoSchema):
-    """ Genre schema """
+    """Genre schema"""
+
     class Meta:
         model = Genre
         load_instance = True

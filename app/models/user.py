@@ -31,11 +31,11 @@ class User(UserMixin, db.Model):
 
     @password.setter
     def password(self, password: str):
-        """ password setter """
+        """password setter"""
         self.password_hash = generate_password_hash(password)
 
     def verify_password(self, password: str):
-        """ verify password """
+        """verify password"""
         return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
@@ -46,21 +46,21 @@ class User(UserMixin, db.Model):
 
     @classmethod
     def find_by_username(cls, username: str):
-        """ find user by username """
+        """find user by username"""
         return User.query.filter(User.username == username).first()
 
     @classmethod
     def get_random(cls):
-        """ get random user """
+        """get random user"""
         return User.query.order_by(func.random()).first()
 
     @classmethod
     def find_by_email(cls, email: str):
-        """ find user by email """
+        """find user by email"""
         return User.query.filter(User.email == email).first()
 
     def save(self):
-        """ save """
+        """save"""
         db.session.add(self)
         db.session.commit()
         return self

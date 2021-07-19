@@ -4,7 +4,7 @@ from . import db
 
 
 class Director(db.Model):
-    """ Director model """
+    """Director model"""
 
     __tablename__ = "Director"
 
@@ -21,7 +21,7 @@ class Director(db.Model):
         return Director.query.filter(Director.name == name).first()
 
     def save(self):
-        """ save """
+        """save"""
         db.session.add(self)
         db.session.commit()
         return self

@@ -220,6 +220,15 @@ class MovieApi(Resource):
     def get(self, uuid=None):
         """Output a single movie"""
 
+        if not str(uuid).isdigit() or int(uuid) <= 0:
+            api.logger.error(
+                f'[{datetime.now()}], movies, put, "id": {uuid}, '
+                f'Error: "Wrong movie ID'
+            )
+            return {"Error": "Wrong movie ID"}, 404
+
+        uuid = int(uuid)
+
         movie = Movie.query.filter_by(id=uuid).first()
         if not movie:
             api.logger.error(
@@ -232,8 +241,17 @@ class MovieApi(Resource):
 
     @login_required
     @api.expect(movie_fields, validate=True)
-    def put(self, uuid: id):
+    def put(self, uuid: int):
         """Changing a movie"""
+
+        if not str(uuid).isdigit() or int(uuid) <= 0:
+            api.logger.error(
+                f'[{datetime.now()}], movies, put, "id": {uuid}, '
+                f'Error: "Wrong movie ID'
+            )
+            return {"Error": "Wrong movie ID"}, 404
+
+        uuid = int(uuid)
 
         movie = Movie.query.filter_by(id=uuid).first()
         data = request.json
@@ -283,6 +301,15 @@ class MovieApi(Resource):
     @login_required
     def delete(uuid: int):
         """Delete a movie"""
+
+        if not str(uuid).isdigit() or int(uuid) <= 0:
+            api.logger.error(
+                f'[{datetime.now()}], movies, put, "id": {uuid}, '
+                f'Error: "Wrong movie ID'
+            )
+            return {"Error": "Wrong movie ID"}, 404
+
+        uuid = int(uuid)
 
         movie = Movie.query.filter_by(id=uuid).first()
         if not movie:
