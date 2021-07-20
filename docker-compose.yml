@@ -16,12 +16,19 @@ services:
       - .env
     container_name: ${APP_NAME}
     hostname: ${APP_NAME}
+    depends_on:
+      db:
+        condition: service_healthy
+
     ports:
       - 8081:8081
 
     restart: always
     volumes:
       - /opt/data/${APP_NAME}/app:/data
+
+    links:
+      - db:pgsql-server
 
   db:
     image: postgres:13.2

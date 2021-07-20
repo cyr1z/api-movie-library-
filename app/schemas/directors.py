@@ -1,13 +1,16 @@
-from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
-from marshmallow_sqlalchemy.fields import Nested
+""" Director schema """
 
-from app.models import Director
+from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, auto_field
+
+from app.models.director import Director
 
 
 class DirectorSchema(SQLAlchemyAutoSchema):
+    """Director schema"""
+
     class Meta:
         model = Director
         load_instance = True
         include_fk = True
 
-    # movies = Nested("MovieSchema", many=True, exclude=("movies",))
+    id = auto_field()

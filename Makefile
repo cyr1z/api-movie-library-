@@ -28,10 +28,11 @@ build-nc: ## Build the container without caching
 up: ## Up container from registry image
 	docker-compose -f docker-compose.yml up -d
 
-dev-up: ## Run container on port configured in `.env`
+dev-up: ## Run container with docker-compose.dev.yml
+	black .
 	docker-compose -f docker-compose.dev.yml  up --build
 
-run: ##  Run container on port configured in `.env` with -d (background mode)
+run: ## Run container docker run -d
 	docker run -d -t --rm  --env-file=.env  --name="$(APP_NAME)" $(APP_NAME)
 
 rm: ## Stop and remove a running container
@@ -46,6 +47,9 @@ dev-stop: ## Stop and remove a running container
 logs: ## view logs
 	docker logs $(APP_NAME)
 
+log-tail: ## tail log
+	docker exec -i $(APP_NAME) tail -f $(LOG_PATH)
+
 clean: ## Cleaning up old container images and cache files
 	rm -rf `find . -name __pycache__`
 	rm -f `find . -type f -name '*.py[co]' `
@@ -59,21 +63,22 @@ pylint: ## Run Pylint linter
 	pylint app
 
 test: ## Run tests
-	docker exec $(APP_NAME) python -i -m pytest -q /tests/unit/ -p no:warnings
+	docker exec $(APP_NAME)  pytest -v -p  no:warnings  /tests/
+
 
 test-last-failed: ## Run last failed tests only
-	docker exec $(APP_NAME) python -m pytest -q /tests/unit/ --lf
+	docker exec $(APP_NAME) pytest -q /tests/ --lf -p  no:warnings
 
-test-dev: ## Run tests with covarege
-	python -m pytest -v --cov=src --cov-report term-missing ./tests/unit/ --cov ./src/app
+#test-dev: ## Run tests with covarege
+#	python -m pytest -v --cov=src --cov-report term-missing ./tests/unit/ --cov ./src/app
 
 kill: ## Kill a running container
 	docker kill $(APP_NAME)
 
-pip-freeze: ## freezing dependencies
-	pip freeze > requirements.txt
+#pip-freeze: ## freezing dependencies
+#	pip freeze > requirements.txt
 
-release: build-nc publish ## Make a release by building and publishing the `{version}` and `latest` tagged containers to registry.
+release: build-nc publish ## Make a release by building and publishing the `{version}` and `latest` tagged containers to registry
 
 # Docker publish
 publish: repo-login publish-latest publish-version ## Publish the `{version}` and `latest` tagged containers to registry.
@@ -97,7 +102,7 @@ tag-version: ## Generate container `latest` tag
 	@echo 'create tag $(VERSION)'
 	docker tag $(APP_NAME) $(DOCKER_REPO):$(VERSION)
 
-bash: ## run bash in container
+shell: ## run bash in container
 	docker exec -i -t $(APP_NAME) bash
 
 sh: ## run sh in container

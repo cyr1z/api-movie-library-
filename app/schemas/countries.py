@@ -1,14 +1,16 @@
-from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, auto_field
-from marshmallow_sqlalchemy.fields import Nested
+""" Country schema """
 
-from app.models import Country
+from marshmallow_sqlalchemy import SQLAlchemyAutoSchema, auto_field
+
+from app.models.country import Country
 
 
 class CountrySchema(SQLAlchemyAutoSchema):
+    """Country schema"""
+
     class Meta:
         model = Country
         load_instance = True
         include_fk = True
 
-    # movies = Nested("MovieSchema", many=True, exclude=("movies",))
     id = auto_field()

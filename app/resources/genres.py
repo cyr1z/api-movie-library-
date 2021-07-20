@@ -6,13 +6,13 @@ from flask import request
 from flask_restx import Resource
 from marshmallow import ValidationError
 
-from app.app import db
-from app.models import Genre
+from app.models import db
+from app.models.genre import Genre
 from app.schemas.genres import GenreSchema
 
 
 class GenreListApi(Resource):
-    """ Genre List Api """
+    """Genre List Api"""
 
     genre_schema = GenreSchema()
 
