@@ -22,7 +22,7 @@ film = {
 }
 
 
-def test_movie_post(client):
+def test_movie_post_and_delete(client):
     client.post(
         "/login",
         data=json.dumps(dict(username='admin', password=ADMIN_PASSWORD)),
