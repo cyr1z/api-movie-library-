@@ -8,6 +8,7 @@ from faker import Faker
 
 
 # Country
+from app.config import ADMIN_PASSWORD
 from app.models.country import Country
 from app.models.director import Director
 from app.models.genre import Genre
@@ -67,7 +68,7 @@ admin = {
 if User.find_by_username(admin["username"]) is None:
     print(dict(admin))
     user = User(**dict(admin))
-    user.password = admin["username"]
+    user.password = ADMIN_PASSWORD
     user.save()
 
 # Movie

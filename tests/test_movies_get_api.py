@@ -2,14 +2,7 @@ import json
 
 import pytest
 
-from app.app import app
 from app.resources.movies import ORDER_CHOICES
-
-
-@pytest.fixture
-def client():
-    with app.test_client() as client:
-        yield client
 
 
 @pytest.mark.parametrize(
@@ -48,7 +41,7 @@ def test_movie_get_page_size(client, test_arg):
     assert len(data) == test_arg
 
 
-@pytest.mark.parametrize("test_arg", [5.6, 'dgdg6'])
+@pytest.mark.parametrize("test_arg", [5.6, "dgdg6"])
 def test_movie_get_page_size_wrong(client, test_arg):
     response = client.get(f"/movies?pageNumber=1&pageSize={test_arg}")
     data = json.loads(response.data)
@@ -56,7 +49,8 @@ def test_movie_get_page_size_wrong(client, test_arg):
     error = {
         "errors": {
             "pageSize": f"Page size invalid literal for int() with base 10: '{test_arg}'"
-        }, "message": "Input payload validation failed"
+        },
+        "message": "Input payload validation failed",
     }
     assert response.status_code == 400
     assert data == error
@@ -70,7 +64,7 @@ def test_movie_get_page_number(client, test_arg):
     assert len(data) == 10
 
 
-@pytest.mark.parametrize("test_arg", [5.6, 'dgdg6'])
+@pytest.mark.parametrize("test_arg", [5.6, "dgdg6"])
 def test_movie_get_page_number_wrong(client, test_arg):
     response = client.get(f"/movies?pageNumber={test_arg}")
     data = json.loads(response.data)
@@ -78,8 +72,9 @@ def test_movie_get_page_number_wrong(client, test_arg):
     error = {
         "errors": {
             "pageNumber": f"Page number invalid literal for int() "
-                          f"with base 10: '{test_arg}'"
-        }, "message": "Input payload validation failed"
+            f"with base 10: '{test_arg}'"
+        },
+        "message": "Input payload validation failed",
     }
     assert response.status_code == 400
     assert data == error
@@ -96,7 +91,7 @@ def test_movie_search(client, test_arg, expected):
     response = client.get(f"/movies?searchQuery={test_arg}")
     data = json.loads(response.data)
     assert response.status_code == 200
-    assert data[0]['directors'][0]['name'] == expected
+    assert data[0]["directors"][0]["name"] == expected
 
 
 @pytest.mark.parametrize(
@@ -110,7 +105,7 @@ def test_movie_get_by_diretor_id(client, test_arg, expected):
     response = client.get(f"/movies?directorId={test_arg}")
     data = json.loads(response.data)
     assert response.status_code == 200
-    assert data[0]['directors'][0]['id'] == test_arg
+    assert data[0]["directors"][0]["id"] == test_arg
     assert len(data) == expected
 
 
@@ -125,7 +120,7 @@ def test_movie_get_by_diretor_name(client, test_arg, expected):
     response = client.get(f"/movies?directorName={test_arg}")
     data = json.loads(response.data)
     assert response.status_code == 200
-    assert data[0]['directors'][0]['name'] == test_arg
+    assert data[0]["directors"][0]["name"] == test_arg
     assert len(data) == expected
 
 
@@ -165,7 +160,7 @@ def test_movie_get_by_genre_wrong_1d(client, test_arg):
     assert data == {"Error": "Wrong Genre ID"}
 
 
-@pytest.mark.parametrize("test_arg", [1.9, 'qwerty'])
+@pytest.mark.parametrize("test_arg", [1.9, "qwerty"])
 def test_movie_get_by_genre_non_numeric_1d(client, test_arg):
     response = client.get(f"/movies?genreId={test_arg}")
     data = json.loads(response.data)
@@ -173,8 +168,9 @@ def test_movie_get_by_genre_non_numeric_1d(client, test_arg):
     assert data == {
         "errors": {
             "genreId": f"Genre ID invalid literal for int() with "
-                       f"base 10: '{test_arg}'"
-        }, "message": "Input payload validation failed"
+            f"base 10: '{test_arg}'"
+        },
+        "message": "Input payload validation failed",
     }
 
 
@@ -189,10 +185,10 @@ def test_movie_get_by_wrong_year_from(client, test_arg):
     response = client.get(f"/movies?yearFrom={test_arg}")
     data = json.loads(response.data)
     assert response.status_code == 404
-    assert "Wrong Year from." in data['Error']
+    assert "Wrong Year from." in data["Error"]
 
 
-@pytest.mark.parametrize("test_arg", [1.2, 'qwa'])
+@pytest.mark.parametrize("test_arg", [1.2, "qwa"])
 def test_movie_get_by_not_int_year_from(client, test_arg):
     response = client.get(f"/movies?yearFrom={test_arg}")
     data = json.loads(response.data)
@@ -200,8 +196,9 @@ def test_movie_get_by_not_int_year_from(client, test_arg):
     assert data == {
         "errors": {
             "yearFrom": "from year invalid literal for int() with "
-                        f"base 10: '{test_arg}'"
-        }, "message": "Input payload validation failed"
+            f"base 10: '{test_arg}'"
+        },
+        "message": "Input payload validation failed",
     }
 
 
@@ -216,19 +213,19 @@ def test_movie_get_by_wrong_year_to(client, test_arg):
     response = client.get(f"/movies?yearTo={test_arg}")
     data = json.loads(response.data)
     assert response.status_code == 404
-    assert "Wrong Year to." in data['Error']
+    assert "Wrong Year to." in data["Error"]
 
 
-@pytest.mark.parametrize("test_arg", [1.2, 'qwa'])
+@pytest.mark.parametrize("test_arg", [1.2, "qwa"])
 def test_movie_get_by_not_int_year_to(client, test_arg):
     response = client.get(f"/movies?yearTo={test_arg}")
     data = json.loads(response.data)
     assert response.status_code == 400
     assert data == {
         "errors": {
-            "yearTo": "to year invalid literal for int() with "
-                      f"base 10: '{test_arg}'"
-        }, "message": "Input payload validation failed"
+            "yearTo": "to year invalid literal for int() with " f"base 10: '{test_arg}'"
+        },
+        "message": "Input payload validation failed",
     }
 
 
@@ -238,7 +235,7 @@ def test_movie_order(client, test_arg):
     assert response.status_code == 200
 
 
-@pytest.mark.parametrize("test_arg", [1.2, 12, 'year', 'krya'])
+@pytest.mark.parametrize("test_arg", [1.2, 12, "year", "krya"])
 def test_movie_wrong_order(client, test_arg):
     response = client.get(f"/movies?orderBy={test_arg}")
     data = json.loads(response.data)
@@ -246,6 +243,7 @@ def test_movie_wrong_order(client, test_arg):
     assert data == {
         "errors": {
             "orderBy": f"Bad order by choice The value '{test_arg}' is not "
-                       "a valid choice for 'orderBy'."
-        }, "message": "Input payload validation failed"
+            "a valid choice for 'orderBy'."
+        },
+        "message": "Input payload validation failed",
     }
