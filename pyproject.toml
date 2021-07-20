@@ -22,8 +22,11 @@ Flask-DB = "^0.3.2"
 data = "^0.4"
 production = "^0.0.0"
 short = "^1.0.6"
+prod = "^0.7"
+f = "^0.0.1"
 
 [tool.poetry.dev-dependencies]
+pylint = "^2.9.3"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

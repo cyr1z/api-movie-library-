@@ -53,7 +53,14 @@ class DirectorApi(Resource):
 
     def get(self, uuid=None):
         """Output a list of directors"""
+        if not str(uuid).isdigit() or int(uuid) <= 0:
+            api.logger.error(
+                f'[{datetime.now()}], movies, put, "id": {uuid}, '
+                f'Error: "Wrong director ID'
+            )
+            return {"Error": "Wrong director ID"}, 404
 
+        uuid = int(uuid)
         director = db.session.query(Director).filter_by(id=uuid).first()
         if not director:
             api.logger.error(

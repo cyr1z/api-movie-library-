@@ -11,6 +11,7 @@ from .models.genre import Genre
 from .models.movie import Movie
 from .models.user import User
 from .resources.api import api
+from . import routes
 
 
 def create_app():
@@ -34,11 +35,10 @@ def create_app():
 
 app = create_app()
 
-from app.routes import *
-
 
 @app.shell_context_processor
 def make_shell_context():
+    """set shell context"""
     return {
         "db": db,
         "user": User,
