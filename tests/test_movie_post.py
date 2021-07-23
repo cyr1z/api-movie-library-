@@ -11,21 +11,17 @@ film = {
     "poster_link": "http://google.com/movie1.jpg",
     "released": "2014-10-22",
     "production": "prod",
-    "genres": [
-        "Comedy"
-    ],
-    "directors": [
-        "Tarantino"
-    ],
+    "genres": ["Comedy"],
+    "directors": ["Tarantino"],
     "country_name": "USA",
-    "country_short": "US"
+    "country_short": "US",
 }
 
 
 def test_movie_post_and_delete(client):
     client.post(
         "/login",
-        data=json.dumps(dict(username='admin', password=ADMIN_PASSWORD)),
+        data=json.dumps(dict(username="admin", password=ADMIN_PASSWORD)),
         content_type="application/json",
     )
     assert current_user.is_authenticated is True
